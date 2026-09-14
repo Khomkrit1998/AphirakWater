@@ -1,6 +1,6 @@
 # AphirakWater
 
-> ระบบสั่งซื้อและจัดส่งน้ำดื่ม สำหรับลูกค้าสั่งน้ำผ่านเว็บ และหลังบ้านจัดการออเดอร์กับการจัดส่ง
+> เว็บไซต์ SEO-first ของ หจก.อภิรักษ์บริการน้ำ (รถส่งน้ำ ภูเก็ต–พังงา) พร้อมฟอร์มขอใบเสนอราคา และหลังบ้าน CMS จัดการเนื้อหา
 
 ---
 
@@ -28,10 +28,11 @@ pnpm install
 # Run / รัน
 pnpm dev            # ทั้ง web และ admin
 pnpm --filter web dev    # เฉพาะ web
-pnpm --filter admin dev  # เฉพาะ admin
+pnpm --filter admin dev  # เฉพาะ admin (http://localhost:3001)
 
 # Test / ทดสอบ
-# TBD — ยังไม่มี test script
+pnpm --filter @workspace/shared test   # self-check: quote schema, links, SEO score
+pnpm typecheck && pnpm lint
 
 # Build
 pnpm build
@@ -49,10 +50,10 @@ pnpm workspace + Turborepo
 
 | Workspace | Package | Purpose / หน้าที่ |
 | --- | --- | --- |
-| `apps/web` | `web` | Next.js app ฝั่งลูกค้า สั่งซื้อน้ำดื่ม |
-| `apps/admin` | `admin` | Next.js app หลังบ้าน จัดการออเดอร์และการจัดส่ง |
-| `packages/ui` | `@workspace/ui` | shadcn/ui components ที่ทั้งสอง app ใช้ร่วมกัน |
-| `packages/shared` | `@workspace/shared` | zod schema และ type ที่ใช้ร่วมกัน |
+| `apps/web` | `web` | เว็บไซต์ลูกค้า: หน้าหลัก, `/services/[slug]`, `/areas/[slug]`, `/quote`, `/blog` |
+| `apps/admin` | `admin` | หลังบ้าน CMS โหมดตัวอย่าง (port 3001): Dashboard, `/pages`, `/pages/[id]/edit` — ยังไม่มี login/บันทึก ห้าม deploy |
+| `packages/ui` | `@workspace/ui` | shadcn/ui components + brand tokens (`globals.css`) ที่ทั้งสอง app ใช้ร่วมกัน |
+| `packages/shared` | `@workspace/shared` | zod schema, type และเนื้อหาเว็บ (static จนกว่าจะมี CMS) |
 | `packages/eslint-config` | `@workspace/eslint-config` | ESLint config กลาง |
 | `packages/typescript-config` | `@workspace/typescript-config` | TypeScript config กลาง |
 

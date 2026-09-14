@@ -1,6 +1,6 @@
 # AphirakWater
 
-ระบบสั่งซื้อและจัดส่งน้ำดื่ม สำหรับลูกค้าสั่งน้ำผ่านเว็บ และหลังบ้านจัดการออเดอร์กับการจัดส่ง
+เว็บไซต์ SEO-first ของ หจก.อภิรักษ์บริการน้ำ (รถส่งน้ำ ภูเก็ต–พังงา) ให้ลูกค้าดูบริการ/พื้นที่และขอใบเสนอราคา และหลังบ้าน CMS สำหรับจัดการเนื้อหาและ SEO ดีไซน์และ requirement อยู่ที่ `docs/requirements/design-handoff/`
 
 ---
 
@@ -83,8 +83,12 @@ Add rules that apply only to this project. Do not duplicate the Standard here un
 
 * Stack: Next.js (App Router) + Tailwind CSS + shadcn/ui, package manager pnpm, monorepo run by Turborepo. Do not introduce another framework, CSS approach, component library, or package manager.
   Stack: Next.js (App Router) + Tailwind CSS + shadcn/ui, package manager pnpm, monorepo ใช้ Turborepo ห้ามเพิ่ม framework, วิธีเขียน CSS, component library หรือ package manager ตัวอื่น
-* Workspaces: `apps/web` (customer ordering), `apps/admin` (order and delivery back office), `packages/ui` (shared shadcn components, `@workspace/ui`), `packages/shared` (shared zod schemas and types, `@workspace/shared`), `packages/eslint-config`, `packages/typescript-config`. Add a new workspace only when code is genuinely shared by both apps.
-  Workspace: `apps/web` (ลูกค้าสั่งน้ำ), `apps/admin` (หลังบ้านจัดการออเดอร์และการจัดส่ง), `packages/ui` (component ใช้ร่วม), `packages/shared` (zod schema และ type ใช้ร่วม), `packages/eslint-config`, `packages/typescript-config` เพิ่ม workspace ใหม่เฉพาะเมื่อ code ถูกใช้ร่วมกันจริง
+* Workspaces: `apps/web` (public SEO website + quote request), `apps/admin` (CMS back office for pages, content and SEO), `packages/ui` (shared shadcn components, `@workspace/ui`), `packages/shared` (shared zod schemas, types and, until a CMS exists, the site content, `@workspace/shared`), `packages/eslint-config`, `packages/typescript-config`. Add a new workspace only when code is genuinely shared by both apps.
+  Workspace: `apps/web` (เว็บไซต์ SEO + ขอใบเสนอราคา), `apps/admin` (หลังบ้าน CMS จัดการหน้า เนื้อหา และ SEO), `packages/ui` (component ใช้ร่วม), `packages/shared` (zod schema, type และเนื้อหาเว็บจนกว่าจะมี CMS), `packages/eslint-config`, `packages/typescript-config` เพิ่ม workspace ใหม่เฉพาะเมื่อ code ถูกใช้ร่วมกันจริง
+* Colors come from the brand tokens in `packages/ui/src/styles/globals.css` (e.g. `bg-primary`, `text-brand`, `bg-call`, `bg-tint`). Do not hard-code hex values in components; every token has a light and a dark value.
+  สีต้องมาจาก token ใน `packages/ui/src/styles/globals.css` (เช่น `bg-primary`, `text-brand`, `bg-call`, `bg-tint`) ห้ามใส่ hex ตรงใน component ทุก token มีค่าทั้งโหมดสว่างและมืด
+* A link to a service or area page goes through `resolveRef()` from `@workspace/shared`. Pages without their own content fall back to `/quote`; never publish template pages that only swap a keyword (duplicate content).
+  ลิงก์ไปหน้าบริการหรือพื้นที่ต้องผ่าน `resolveRef()` จาก `@workspace/shared` หน้าที่ยังไม่มีเนื้อหาจะลิงก์ไป `/quote` ห้ามสร้างหน้าจากแม่แบบที่เปลี่ยนแค่คีย์เวิร์ด
 * Inside an app, code is organized by feature, not by type: `apps/<app>/features/<feature>/{components,hooks,api,schemas}` with an `index.ts` as the feature's only public surface. `app/` holds routes only and imports from a feature's `index.ts`, never deeper. A feature never imports another feature's internals. See `apps/<app>/features/README.md`.
   ภายในแต่ละ app จัดโครงตามฟีเจอร์ ไม่ใช่ตามประเภทไฟล์: `apps/<app>/features/<feature>/{components,hooks,api,schemas}` และมี `index.ts` เป็นทางเข้าเดียว `app/` เก็บเฉพาะ route และ import จาก `index.ts` เท่านั้น ห้ามฟีเจอร์ import ไส้ในของฟีเจอร์อื่น ดู `apps/<app>/features/README.md`
 * Validate every external input (form values, API request and response bodies, env variables) with a `zod` schema. No hand-written validation. Schemas used by both apps live in `@workspace/shared`.
