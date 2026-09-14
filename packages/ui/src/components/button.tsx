@@ -7,7 +7,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
+        call: "bg-call text-white hover:bg-call-hover",
+        "call-outline":
+          "border-[1.5px] border-call-border bg-background text-call-text hover:bg-call-soft hover:text-call-hover",
+        soft: "bg-soft text-brand-strong hover:bg-soft-hover",
+        "on-dark":
+          "border-white/35 bg-white/12 text-white hover:bg-white/20",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
@@ -30,6 +36,10 @@ const buttonVariants = cva(
         "icon-sm":
           "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
         "icon-lg": "size-9",
+        cta: "h-auto rounded-[14px] px-7 py-4 text-base font-semibold",
+        "cta-sm":
+          "h-auto rounded-[13px] px-[26px] py-[15px] text-[15.5px] font-semibold",
+        nav: "h-auto rounded-[12px] px-5 py-[11px] text-[14.5px] font-semibold",
       },
     },
     defaultVariants: {

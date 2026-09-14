@@ -8,7 +8,7 @@
 @source "../**/*.{ts,tsx}";
 
 @theme inline {
-    --font-heading: var(--font-sans);
+    --font-heading: var(--font-heading);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,27 +48,77 @@
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
     --font-sans: var(--font-sans);
+
+    /* Brand tokens (Apirak Water design handoff) */
+    --color-primary-hover: var(--primary-hover);
+    --color-brand: var(--brand);
+    --color-brand-strong: var(--brand-strong);
+    --color-soft: var(--soft);
+    --color-soft-hover: var(--soft-hover);
+    --color-soft-border: var(--soft-border);
+    --color-check: var(--check);
+    --color-tint: var(--tint);
+    --color-tint-border: var(--tint-border);
+    --color-surface-dark: var(--surface-dark);
+    --color-on-dark-muted: var(--on-dark-muted);
+    --color-call: var(--call);
+    --color-call-hover: var(--call-hover);
+    --color-call-text: var(--call-text);
+    --color-call-soft: var(--call-soft);
+    --color-call-border: var(--call-border);
+    --color-ink-700: var(--ink-700);
+    --color-ink-600: var(--ink-600);
+    --color-ink-400: var(--ink-400);
+    --color-line-soft: var(--line-soft);
+    --color-input-bg: var(--input-bg);
+    --color-row-hover: var(--row-hover);
+    --color-footer: var(--footer);
+    --color-footer-foreground: var(--footer-foreground);
+    --color-footer-muted: var(--footer-muted);
+    --color-footer-line: var(--footer-line);
+    --color-star: var(--star);
+    --color-live: var(--live);
+    --color-hero-from: var(--hero-from);
+    --color-canvas: var(--canvas);
+    --color-warn-soft: var(--warn-soft);
+    --color-warn-text: var(--warn-text);
+    --color-info-soft: var(--info-soft);
+    --color-info-text: var(--info-text);
+    --color-neutral-soft: var(--neutral-soft);
+    --color-serp-title: var(--serp-title);
+    --color-serp-desc: var(--serp-desc);
+}
+
+@theme {
+    --shadow-lift: 0 24px 50px -40px rgb(13 54 40 / 0.4);
+    --shadow-form: 0 26px 54px -42px rgb(13 54 40 / 0.4);
+    --shadow-hero: 0 34px 70px -40px rgb(13 54 40 / 0.42);
+    --shadow-float: 0 20px 40px -26px rgb(13 54 40 / 0.35);
+    --shadow-card-hover: 0 26px 46px -32px rgb(13 54 40 / 0.4);
+    --shadow-sticky: 0 -8px 24px -18px rgb(13 54 40 / 0.5);
+    --shadow-cta: 0 16px 30px -18px rgb(14 122 95 / 0.95);
+    --shadow-cta-call: 0 16px 30px -20px rgb(217 43 43 / 0.9);
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --background: #ffffff;
+    --foreground: #0f1b17;
+    --card: #ffffff;
+    --card-foreground: #0f1b17;
+    --popover: #ffffff;
+    --popover-foreground: #0f1b17;
+    --primary: #0e7a5f;
+    --primary-foreground: #ffffff;
+    --secondary: #f5faf8;
+    --secondary-foreground: #0b6350;
+    --muted: #f5faf8;
+    --muted-foreground: #5b6b64;
+    --accent: #eff7f3;
+    --accent-foreground: #0b6350;
+    --destructive: #c22626;
+    --border: #e3eae6;
+    --input: #dde6e1;
+    --ring: #0e7a5f;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
@@ -83,27 +133,66 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+
+    --primary-hover: #0b6350;
+    --brand: #0e7a5f;
+    --brand-strong: #0b6350;
+    --soft: #eff7f3;
+    --soft-hover: #e1f1e9;
+    --soft-border: #dceae3;
+    --check: #e4f4ec;
+    --tint: #f5faf8;
+    --tint-border: #e5efea;
+    --surface-dark: #0b4a39;
+    --on-dark-muted: #c7e4d9;
+    --call: #d92b2b;
+    --call-hover: #b31e1e;
+    --call-text: #c22626;
+    --call-soft: #fdf0f0;
+    --call-border: #f1c9c9;
+    --ink-700: #37473f;
+    --ink-600: #40514a;
+    --ink-400: #96a69e;
+    --line-soft: #edf2ef;
+    --input-bg: #fbfdfc;
+    --row-hover: #fafcfb;
+    --footer: #0f1b17;
+    --footer-foreground: #c3cfc9;
+    --footer-muted: #8d9c94;
+    --footer-line: #24322c;
+    --star: #e8a317;
+    --live: #21a97b;
+    --hero-from: #f2f9f6;
+    --canvas: #f6f8f7;
+    --warn-soft: #fef6e7;
+    --warn-text: #8a5514;
+    --info-soft: #f0f1fa;
+    --info-text: #454c99;
+    --neutral-soft: #f1f4f2;
+    --serp-title: #1a0dab;
+    --serp-desc: #4d5156;
 }
 
+/* Dark theme is not in the design handoff; derived from the brand greens. */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
+    --background: #0b1310;
+    --foreground: #e7efeb;
+    --card: #111c18;
+    --card-foreground: #e7efeb;
+    --popover: #111c18;
+    --popover-foreground: #e7efeb;
+    --primary: #0e7a5f;
+    --primary-foreground: #ffffff;
+    --secondary: #0f1a16;
+    --secondary-foreground: #9fdcc4;
+    --muted: #0f1a16;
+    --muted-foreground: #9aaba3;
+    --accent: #133027;
+    --accent-foreground: #9fdcc4;
+    --destructive: #ff8a8a;
+    --border: #22322c;
+    --input: #2b3d36;
+    --ring: #3fbf94;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
@@ -117,13 +206,246 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+
+    --primary-hover: #13906f;
+    --brand: #4cc79e;
+    --brand-strong: #8fddbf;
+    --soft: #133027;
+    --soft-hover: #183a2f;
+    --soft-border: #24463a;
+    --check: #17392e;
+    --tint: #0f1a16;
+    --tint-border: #1c2b25;
+    --surface-dark: #0e3d30;
+    --on-dark-muted: #b9dcce;
+    --call: #d92b2b;
+    --call-hover: #e14444;
+    --call-text: #ff8a8a;
+    --call-soft: #3a1717;
+    --call-border: #6b2a2a;
+    --ink-700: #cad7d0;
+    --ink-600: #b2c2ba;
+    --ink-400: #71837b;
+    --line-soft: #1b2823;
+    --input-bg: #0f1915;
+    --row-hover: #121e1a;
+    --footer: #070d0b;
+    --footer-foreground: #b7c4be;
+    --footer-muted: #7e8e86;
+    --footer-line: #1a2621;
+    --star: #e8a317;
+    --live: #2fbf8c;
+    --hero-from: #0f1e19;
+    --canvas: #080e0c;
+    --warn-soft: #33260f;
+    --warn-text: #f0c077;
+    --info-soft: #1d2040;
+    --info-text: #aeb4f0;
+    --neutral-soft: #1a2420;
+    --serp-title: #8ab4f8;
+    --serp-desc: #bdc1c6;
+}
+
+/* Scroll-driven motion. CSS only (no JS, compositor-friendly transform/opacity),
+   so it does not cost INP or CLS. Browsers without animation-timeline support,
+   and visitors who prefer reduced motion, get the static final state. */
+@keyframes story-rise {
+  from { opacity: 0; translate: 0 1.75rem; }
+}
+@keyframes story-zoom-out {
+  from { scale: 1.12; }
+}
+@keyframes story-zoom-in {
+  to { scale: 1.08; }
+}
+@keyframes story-fill-y {
+  from { scale: 1 0; }
+}
+@keyframes story-fill-x {
+  from { scale: 0 1; }
+}
+@keyframes story-focus {
+  from { opacity: 0.35; }
+}
+@keyframes story-mark {
+  from { background-color: var(--soft); color: var(--brand-strong); }
+}
+
+@keyframes story-drift {
+  from { translate: 6% 0; }
+  to { translate: -6% 0; }
+}
+
+/* Decorative depth. Low-opacity wave lines drawn as a mask over currentColor, so
+   the colour follows the theme (set it with text-* and opacity-*). The radial
+   mask fades the pattern out towards the edges. */
+@utility wave-field {
+  pointer-events: none;
+  background-color: currentColor;
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='22' viewBox='0 0 120 22'%3E%3Cpath d='M0 11 Q15 3 30 11 T60 11 T90 11 T120 11' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E"),
+    radial-gradient(closest-side, #000 35%, transparent);
+  mask-size: 120px 22px, 100% 100%;
+  mask-repeat: repeat, no-repeat;
+  mask-composite: intersect;
+}
+
+@keyframes story-drive {
+  to { translate: 9% 0; }
+}
+
+/* Hero truck drives off to the right as the hero scrolls away. */
+@utility motion-drive {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-drive linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+/* Reading progress for the whole page (compact wayfinding on smaller screens).
+   It reports position rather than decorating, so it also runs with reduced motion. */
+@utility reading-progress {
+  transform-origin: left;
+  @supports (animation-timeline: scroll()) {
+    animation: story-fill-x linear both;
+    animation-timeline: scroll(root);
+  }
+  @supports not (animation-timeline: scroll()) {
+    display: none;
+  }
+}
+
+/* Oversized background word drifts sideways while its section passes. */
+@utility motion-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+/* Element rises in while it enters the viewport. Use on blocks shorter than the screen. */
+@utility motion-rise {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+/* Image settles from a slight zoom while its frame passes (parent clips overflow). */
+@utility motion-zoom-out {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-zoom-out linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 70%;
+    }
+  }
+}
+
+/* Image drifts closer while it scrolls away (hero). */
+@utility motion-zoom-in {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-zoom-in linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+/* The story chapter: the section shares a named timeline taken from its steps list. */
+@utility story-scope {
+  timeline-scope: --story;
+}
+@utility story-track {
+  view-timeline-name: --story;
+}
+@utility story-fill-y {
+  transform-origin: bottom;
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: --story) {
+      animation: story-fill-y linear both;
+      animation-timeline: --story;
+      animation-range: cover 20% cover 70%;
+    }
+  }
+}
+@utility story-fill-x {
+  transform-origin: left;
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (timeline-scope: --story) {
+      animation: story-fill-x linear both;
+      animation-timeline: --story;
+      animation-range: cover 20% cover 70%;
+    }
+  }
+}
+/* A step comes into focus as it reaches the middle of the screen. */
+@utility story-step {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-focus linear both;
+      animation-timeline: view();
+      animation-range: cover 25% cover 45%;
+    }
+  }
+}
+@utility story-step-mark {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-mark linear both;
+      animation-timeline: view();
+      animation-range: cover 30% cover 45%;
+    }
+  }
 }
 
 @layer base {
+  :root {
+    interpolate-size: allow-keywords;
+    }
   * {
     @apply border-border outline-ring/50;
     }
   body {
     @apply bg-background text-foreground;
     }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading, var(--font-sans));
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
+    }
+  p {
+    text-wrap: pretty;
+    }
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    }
+}
+
+/* FAQ answers slide open/closed (motion answering the visitor's action). */
+@supports (interpolate-size: allow-keywords) {
+  [data-slot="faq-item"]::details-content {
+    block-size: 0;
+    overflow: clip;
+  }
+  [data-slot="faq-item"][open]::details-content {
+    block-size: auto;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-slot="faq-item"]::details-content {
+      transition: block-size 0.28s ease, content-visibility 0.28s allow-discrete;
+    }
+  }
 }
