@@ -63,7 +63,7 @@ export function SiteHeader() {
               contact={
                 <ContactIcons
                   className="mt-6 justify-center gap-2.5"
-                  linkClassName="size-11 rounded-[12px] border bg-card text-ink-700 hover:bg-soft hover:text-brand-strong"
+                  linkClassName="size-10 rounded-[12px] border bg-card text-ink-700 hover:bg-soft hover:text-brand-strong"
                 />
               }
             />
