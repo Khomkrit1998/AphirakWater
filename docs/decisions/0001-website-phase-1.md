@@ -39,7 +39,7 @@
 ## ต้องยืนยันกับเจ้าของก่อนขึ้นจริง
 
 * ~~โดเมนจริง~~ `apirakwater.com` (ยืนยันแล้ว), ที่อยู่ + พิกัด (Google ต้องใช้ `address` สำหรับ LocalBusiness rich result), รูปปกบทความ (Article rich result ต้องมี `image`), OG image 1200×630
-* LINE ID `@0874181199` (ใช้ใน header drawer, sticky CTA, footer, หน้า area)
+* ~~LINE ID~~ ยืนยันแล้ว 2026-09-15: ลิงก์ `https://lin.ee/QIz0w65` (ID `@789oxtwd`, ค่าเดิม `@0874181199` ผิด) พร้อม WhatsApp, Facebook, YouTube, TikTok (`packages/shared/src/site.ts`)
 * ตัวเลข trust 10+ / 1,000+ และรีวิวลูกค้า 3 รายการ (ตัวเลข "12 พื้นที่" ขัดกับรายการพื้นที่ 8 แห่ง จึงเปลี่ยนเป็น "2 จังหวัด ภูเก็ต · พังงา" ตามข้อมูลที่ยืนยันแล้ว 2026-09-15) (`packages/shared/src/home.ts`)
 * รูปจริงทุกช่อง (ตอนนี้เป็น `ImagePlaceholder`) และ Google Maps
 * ช่องทางรับคำขอใบเสนอราคา (อีเมล / LINE / database)
