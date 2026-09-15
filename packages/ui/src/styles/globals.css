@@ -97,7 +97,6 @@
     --shadow-card-hover: 0 26px 46px -32px rgb(13 54 40 / 0.4);
     --shadow-sticky: 0 -8px 24px -18px rgb(13 54 40 / 0.5);
     --shadow-cta: 0 16px 30px -18px rgb(14 122 95 / 0.95);
-    --shadow-cta-call: 0 16px 30px -20px rgb(217 43 43 / 0.9);
 }
 
 :root {
@@ -160,7 +159,7 @@
     --footer-foreground: #c3cfc9;
     --footer-muted: #8d9c94;
     --footer-line: #24322c;
-    --star: #e8a317;
+    --star: #b7790f;
     --live: #21a97b;
     --hero-from: #f2f9f6;
     --canvas: #f6f8f7;
@@ -264,8 +263,9 @@
 @keyframes story-fill-x {
   from { scale: 0 1; }
 }
+/* Resting steps stay readable (body text >= 4.5:1); the number mark carries the focus. */
 @keyframes story-focus {
-  from { opacity: 0.35; }
+  from { opacity: 0.8; }
 }
 @keyframes story-mark {
   from { background-color: var(--soft); color: var(--brand-strong); }

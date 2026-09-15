@@ -38,7 +38,7 @@ const buttonVariants = cva(
         "icon-lg": "size-9",
         cta: "h-auto rounded-[14px] px-7 py-4 text-base font-semibold",
         "cta-sm":
-          "h-auto rounded-[13px] px-[26px] py-[15px] text-[15.5px] font-semibold",
+          "h-auto gap-2 rounded-[13px] px-[26px] py-[15px] text-[15.5px] font-semibold",
         nav: "h-auto rounded-[12px] px-5 py-[11px] text-[14.5px] font-semibold",
       },
     },

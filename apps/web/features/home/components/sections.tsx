@@ -61,17 +61,16 @@ export function ServicesSection({ children }: { children: React.ReactNode }) {
   )
 }
 
-const gaugeTicks = [
-  { label: "20,000 ลิตร", at: "100%" },
-  { label: "10,000", at: "50%" },
-  { label: "5,000", at: "25%" },
-]
-
 // The story chapter. A named scroll timeline taken from the steps list drives the
 // water tank (desktop, sticky) or the progress bar (mobile), and each step comes
 // into focus as it reaches the middle of the screen. Pure CSS; see globals.css.
+// The gauge shows reading progress through the steps, so it is labelled with the
+// first and last step, never with litres (it is not an order size).
 export function ProcessStory() {
   const { process } = home
+  const first = process.steps[0]!.title
+  const last = process.steps.at(-1)!.title
+  const stepLines = process.steps.slice(1).map((_, i) => `${((i + 1) * 100) / process.steps.length}%`)
   return (
     <section
       id="process"
@@ -99,27 +98,17 @@ export function ProcessStory() {
             <div aria-hidden="true" className="mt-10 hidden gap-4 lg:flex">
               <div className="relative h-[280px] w-[104px] overflow-clip rounded-[26px] border-2 border-soft-border bg-tint">
                 <div className="story-fill-y absolute inset-0 bg-primary" />
-                {gaugeTicks.slice(1).map((tick) => (
+                {stepLines.map((at) => (
                   <span
-                    key={tick.label}
-                    style={{ bottom: tick.at }}
+                    key={at}
+                    style={{ bottom: at }}
                     className="absolute inset-x-0 border-t border-dashed border-foreground/15"
                   />
                 ))}
               </div>
-              <div className="relative h-[280px] w-28 text-[13px] text-muted-foreground">
-                {gaugeTicks.map((tick) => (
-                  <span
-                    key={tick.label}
-                    style={{ bottom: tick.at }}
-                    className="absolute left-0 translate-y-1/2 whitespace-nowrap tabular-nums"
-                  >
-                    {tick.label}
-                  </span>
-                ))}
-                <span className="absolute bottom-0 left-0 translate-y-full pt-2 font-medium text-ink-700">
-                  {process.gaugeLabel}
-                </span>
+              <div className="flex h-[280px] flex-col justify-between text-[13px] whitespace-nowrap">
+                <span className="font-medium text-ink-700">{last}</span>
+                <span className="text-muted-foreground">{first}</span>
               </div>
             </div>
           </div>
@@ -128,11 +117,11 @@ export function ProcessStory() {
         <div className="min-w-0 lg:col-span-6 lg:col-start-7">
           <div
             aria-hidden="true"
-            className="sticky top-[69px] z-10 -mx-5 mb-4 bg-background/92 px-5 py-3 backdrop-blur-md lg:hidden"
+            className="sticky top-[65px] z-10 -mx-5 mb-4 sm:top-[69px] bg-background/92 px-5 py-3 backdrop-blur-md lg:hidden"
           >
             <div className="mb-1.5 flex justify-between text-xs text-muted-foreground">
-              <span>{process.gaugeLabel}</span>
-              <span className="tabular-nums">20,000 ลิตร</span>
+              <span>{first}</span>
+              <span>{last}</span>
             </div>
             <div className="h-2 overflow-clip rounded-full bg-tint">
               <div className="story-fill-x h-full bg-primary" />
@@ -269,10 +258,7 @@ export function PricingSection() {
           <p className="mb-6 text-[16.5px] leading-[1.7] text-ink-600">{pricing.lead}</p>
           <Link
             href="/quote"
-            className={cn(
-              buttonVariants({ variant: "call", size: "cta-sm" }),
-              "shadow-cta-call max-sm:w-full"
-            )}
+            className={cn(buttonVariants({ size: "cta-sm" }), "shadow-cta max-sm:w-full")}
           >
             {pricing.cta}
           </Link>

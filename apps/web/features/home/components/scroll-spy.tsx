@@ -15,6 +15,8 @@ const chapters = [
 ]
 // While these are under the reading line the wayfinding steps aside.
 const quietSections = ["top", "contact"]
+// Below lg the process chapter shows its own sticky progress bar in the same spot.
+const storyChapter = chapters.findIndex((c) => c.sections.includes("process"))
 
 const ROW = 36 // px per chapter row
 
@@ -64,7 +66,10 @@ export function ScrollSpy() {
     <>
       <div
         aria-hidden="true"
-        className="reading-progress fixed inset-x-0 top-[65px] z-40 h-0.5 bg-primary/80 sm:top-[69px] min-[1360px]:hidden"
+        className={cn(
+          "reading-progress fixed inset-x-0 top-[65px] z-40 h-0.5 bg-primary/80 sm:top-[69px] min-[1360px]:hidden",
+          active === storyChapter && "max-lg:invisible"
+        )}
       />
 
       <nav

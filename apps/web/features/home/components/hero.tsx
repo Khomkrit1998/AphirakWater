@@ -103,23 +103,25 @@ export function Hero() {
           <div className="relative z-10 mt-2 lg:col-span-6 lg:col-start-1 lg:mt-10 lg:pr-4">
             <div className="rounded-[24px] border bg-background p-6 sm:p-8">
               <p className="mb-6 text-lg leading-[1.65] text-ink-600">{hero.lead}</p>
-              <div className="mb-6 flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3">
                 <Link
                   href="/quote"
                   className={cn(buttonVariants({ size: "cta" }), "shadow-cta max-sm:w-full")}
                 >
                   ขอราคาน้ำ
                 </Link>
+                {/* below 900px the sticky bar's โทร covers this (and would sit on top of it) */}
                 <a
                   href={site.phoneHref}
                   className={cn(
                     buttonVariants({ variant: "call-outline", size: "cta" }),
-                    "max-sm:w-full"
+                    "max-[899px]:hidden"
                   )}
                 >
                   โทรสอบถาม {site.phone}
                 </a>
               </div>
+              <p className="mt-3 mb-6 text-sm text-muted-foreground">{hero.ctaNote}</p>
               <ul className="flex flex-wrap gap-x-[26px] gap-y-2.5">
                 {hero.proof.map((item) => (
                   <li
@@ -136,7 +138,8 @@ export function Hero() {
         </div>
       </section>
 
-      <section aria-label="ตัวเลขความน่าเชื่อถือ" className="mt-12 bg-primary lg:mt-0">
+      {/* surface-dark per the handoff trust band; labels on bg-primary fell below 4.5:1 */}
+      <section aria-label="ตัวเลขความน่าเชื่อถือ" className="mt-12 bg-surface-dark lg:mt-0">
         <div className="mx-auto max-w-[1200px] px-5 py-9 lg:py-12">
           <ul className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
             {home.stats.map((stat) => (

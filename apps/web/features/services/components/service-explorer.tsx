@@ -113,11 +113,13 @@ function ServicePanel({
         </ul>
 
         <div className="flex flex-wrap items-center gap-3">
+          {/* Red is reserved for calling. On this dark panel the quote action is solid
+              white: brand green on surface-dark is only 1.9:1 against the panel. */}
           <Link
             href={quoteHref({ service: service.quoteType })}
             className={cn(
-              buttonVariants({ variant: "call", size: "cta-sm" }),
-              "group/cta max-sm:w-full"
+              buttonVariants({ size: "cta-sm" }),
+              "group/cta bg-white text-surface-dark hover:bg-soft max-sm:w-full"
             )}
           >
             ขอราคา{service.title}

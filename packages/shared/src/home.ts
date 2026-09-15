@@ -16,6 +16,8 @@ export const homeSchema = z.object({
     headingAccent: z.string().min(1),
     lead: z.string().min(1),
     proof: z.array(z.string().min(1)),
+    // What happens after the quote button; only repeats promises made elsewhere on the page.
+    ctaNote: z.string().min(1),
     imageAlt: z.string().min(1),
     floatStat: z.object({ value: z.string(), label: z.string() }),
   }),
@@ -29,7 +31,6 @@ export const homeSchema = z.object({
     items: z.array(z.object({ title: z.string(), desc: z.string() })),
   }),
   process: sectionIntroSchema.extend({
-    gaugeLabel: z.string().min(1),
     steps: z
       .array(z.object({ title: z.string().min(1), desc: z.string().min(1) }))
       .min(2),
@@ -77,6 +78,7 @@ export const home = homeSchema.parse({
     headingAccent: "ถึงหน้างาน ตรงเวลา",
     lead: "รถส่งน้ำหลายขนาด พร้อมให้บริการบ้านพัก โรงแรม รีสอร์ต Pool Villa สระว่ายน้ำ และงานก่อสร้าง รองรับการใช้น้ำปริมาณมากและงานเร่งด่วน",
     proof: ["ส่งตรงเวลา", "มีรถหลายขนาด", "รองรับงานปริมาณมาก"],
+    ctaNote: "รับใบเสนอราคาภายในวันเดียว · รู้ราคารวมก่อนรถออกทุกครั้ง",
     imageAlt: "รถส่งน้ำ ISUZU ถังสีเขียวของอภิรักษ์บริการน้ำ ทะเบียน 81-2267",
     floatStat: { value: "1,000+", label: "เที่ยวส่งน้ำต่อปี" },
   },
@@ -119,7 +121,6 @@ export const home = homeSchema.parse({
     eyebrow: "ขั้นตอนการใช้บริการ",
     heading: ["จากโทรแจ้งงาน", "ถึงน้ำเต็มถังที่หน้างาน"],
     lead: "ทุกงานผ่าน 4 ขั้นตอนเดียวกัน ท่านรู้ราคารวมและเวลาเข้าหน้างานก่อนรถออกทุกครั้ง",
-    gaugeLabel: "ปริมาณน้ำต่อเที่ยว",
     steps: [
       {
         title: "แจ้งข้อมูลหน้างาน",
@@ -149,7 +150,7 @@ export const home = homeSchema.parse({
     eyebrow: "ราคาบริการ",
     heading: ["แจ้งปริมาณน้ำและพื้นที่", "รับใบเสนอราคาภายในวันเดียว"],
     lead: "ค่าบริการขึ้นอยู่กับปริมาณน้ำ ระยะทางจากจุดจ่ายน้ำ ความยากง่ายของหน้างาน และจำนวนเที่ยวต่อรอบ เพื่อความถูกต้องเราจึงเสนอราคาเป็นรายงาน ไม่ใช้ราคาเหมาแบบตายตัว",
-    cta: "ขอใบเสนอราคา",
+    cta: "ขอราคาน้ำ",
     volumes: [
       { size: "5,000 ลิตร", use: "บ้านพัก ถังเก็บน้ำขนาดเล็ก", tag: "ขอใบเสนอราคา", volume: "5000" },
       { size: "10,000 ลิตร", use: "บ้านพักขนาดใหญ่ · Pool Villa", tag: "ขอใบเสนอราคา", volume: "10000" },

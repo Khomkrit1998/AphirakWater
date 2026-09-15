@@ -38,7 +38,8 @@ export function SiteHeader() {
             href="/quote"
             className={cn(
               buttonVariants({ size: "nav" }),
-              "shadow-cta max-sm:px-3.5 max-sm:py-2.5 max-sm:text-sm"
+              // below 900px the sticky bar carries this action
+              "shadow-cta max-[899px]:hidden"
             )}
           >
             ขอราคาน้ำ
