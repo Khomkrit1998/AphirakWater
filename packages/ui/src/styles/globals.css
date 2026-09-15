@@ -464,6 +464,46 @@
     }
   }
 }
+/* Pinned chapter. A wrapper taller than the screen names its own view timeline
+   (--pin); a sticky layer inside reads it over the `contain` range, which is the
+   stretch while the layer is pinned. With reduced motion or no support the layer
+   still pins, only these effects stay at rest. */
+@keyframes pin-darken {
+  from { opacity: 0.15; }
+  to { opacity: 0.7; }
+}
+@utility pin-track {
+  view-timeline-name: --pin;
+}
+@utility pin-zoom {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-zoom-out linear both;
+      animation-timeline: --pin;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+@utility pin-darken {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: pin-darken linear both;
+      animation-timeline: --pin;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+@utility pin-fill-x {
+  transform-origin: left;
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-fill-x linear both;
+      animation-timeline: --pin;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+}
+
 /* A step comes into focus as it reaches the middle of the screen. */
 @utility story-step {
   @media (prefers-reduced-motion: no-preference) {

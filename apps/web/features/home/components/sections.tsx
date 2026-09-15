@@ -27,6 +27,7 @@ import workSide from "../assets/work-side.jpg"
 import workWetRoad from "../assets/work-wet-road.jpg"
 import workYard from "../assets/work-yard.jpg"
 import { BigWord, WaterGlow, WaveField } from "./decor"
+import { InViewItem } from "./in-view-item"
 
 const container = "mx-auto max-w-[1200px] px-5"
 const gapTop = "pt-[clamp(72px,9vw,120px)]"
@@ -161,44 +162,67 @@ export function ProcessStory() {
   )
 }
 
-// Full-width photo band with a dark panel pulled up over its right side.
+// Below the sticky header (65px, 69px from sm); the pinned layer fills the rest.
+const pinned = "sticky top-[65px] h-[calc(100svh-65px)] sm:top-[69px] sm:h-[calc(100svh-69px)]"
+
+// Pinned chapter (scroll-based + sticky). The fleet photo pins under the header
+// while the reasons scroll up over it one at a time. The wrapper's own view
+// timeline (pin-* in globals.css) zooms the photo out, darkens it and fills the
+// progress bar; each card plays a timed entrance when it scrolls in (InViewItem).
+// The card list is pulled up by the pinned layer's height so both start together.
 export function WhyUs() {
   const { whyUs } = home
   return (
-    <section id="why-us" className={cn(gapTop, "scroll-mt-4")}>
-      {/* overflow-clip (not hidden) so the image keeps the page as its scroll timeline.
-          The image layer is 12% taller than the frame on each side, so the 8% parallax
-          (of its own 124% height, ~10% of the frame) never shows an edge. */}
-      <div className="relative h-[clamp(240px,40vw,520px)] overflow-clip bg-tint">
-        <div className="motion-parallax absolute inset-x-0 -inset-y-[12%] [--parallax:8%]">
+    <section id="why-us" aria-labelledby="why-us-heading" className={cn(gapTop, "scroll-mt-4")}>
+      <div className="pin-track relative overflow-clip bg-night text-white">
+        <div className={cn(pinned, "overflow-clip")}>
           <Image
             src={fleet}
             alt={whyUs.imageAlt}
             fill
             placeholder="blur"
             sizes="100vw"
-            className="motion-zoom-out object-cover object-[center_55%]"
+            className="pin-zoom object-cover object-[center_55%]"
           />
+          <div aria-hidden="true" className="pin-darken absolute inset-0 bg-night opacity-50" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-linear-to-b from-night/85 via-night/10 via-40% to-night/50 lg:bg-linear-to-r lg:from-night/90 lg:via-night/35 lg:via-45% lg:to-transparent"
+          />
+          {/* pb-28 below 900px keeps the progress bar above the fixed call/quote bar */}
+          <div className={cn(container, "relative flex h-full flex-col justify-between pt-8 pb-28 min-[900px]:pb-8 lg:py-16")}>
+            <div className="max-w-[520px]">
+              <Eyebrow className="text-on-dark-muted">{whyUs.eyebrow}</Eyebrow>
+              <h2 id="why-us-heading" className={cn(h2, "text-white")}>
+                <Lines lines={whyUs.heading} />
+              </h2>
+            </div>
+            <div aria-hidden="true" className="h-1 w-40 overflow-clip rounded-full bg-white/20 motion-reduce:hidden">
+              <div className="pin-fill-x h-full bg-live" />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={container}>
-        <div className="motion-rise relative -mt-16 rounded-[28px] bg-surface-dark p-7 text-white sm:p-10 lg:-mt-44 lg:ml-[calc(100%*5/12)] lg:p-12">
-          <Eyebrow className="text-on-dark-muted">{whyUs.eyebrow}</Eyebrow>
-          <h2 className={cn(h2, "mb-8 text-white")}>
-            <Lines lines={whyUs.heading} />
-          </h2>
-          <ul className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            {whyUs.items.map((item) => (
-              <li key={item.title} className="flex items-start gap-3.5">
-                <CheckMark className="mt-0.5 bg-white/12 text-white" />
-                <div>
-                  <h3 className="mb-1 text-[17.5px] text-white">{item.title}</h3>
-                  <p className="text-[15px] leading-[1.6] text-on-dark-muted">{item.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+
+        <ul
+          className={cn(
+            container,
+            // gap-y only: a plain gap would also apply between the 12 columns and squeeze them to 0
+            "relative -mt-[calc(100svh-65px)] grid gap-y-[26svh] pt-[52svh] pb-[22svh] sm:-mt-[calc(100svh-69px)] lg:grid-cols-12"
+          )}
+        >
+          {whyUs.items.map((item) => (
+            <InViewItem
+              key={item.title}
+              className="group flex items-start gap-4 rounded-[24px] border border-white/10 bg-night/80 p-6 backdrop-blur-md transition-[opacity,translate] duration-700 ease-out data-[inview=false]:translate-y-10 data-[inview=false]:opacity-0 motion-reduce:transition-none sm:p-8 lg:col-span-5 lg:col-start-8"
+            >
+              <CheckMark className="mt-0.5 size-8 bg-live/20 text-live transition-transform delay-200 duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-data-[inview=false]:scale-0 motion-reduce:transition-none" />
+              <div>
+                <h3 className="mb-1.5 text-[clamp(18px,1.8vw,22px)] text-white">{item.title}</h3>
+                <p className="text-[15.5px] leading-[1.65] text-on-dark-muted">{item.desc}</p>
+              </div>
+            </InViewItem>
+          ))}
+        </ul>
       </div>
     </section>
   )

@@ -8,6 +8,7 @@ import { cn } from "@workspace/ui/lib/utils"
 
 import heroNight from "../assets/hero-night.jpg"
 import heroNightSide from "../assets/hero-night-side.jpg"
+import { CountUp } from "./count-up"
 
 // hero-night-side.jpg is cropped at the top to leave out a customer's sign.
 const slidePhotos: Record<
@@ -108,8 +109,8 @@ export function Hero() {
           <ul className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
             {home.stats.map((stat) => (
               <li key={stat.label} className="motion-rise text-white">
-                <p className="font-heading text-[clamp(28px,2.4vw,34px)] leading-[1.05] font-bold whitespace-nowrap">
-                  {stat.value}
+                <p className="font-heading text-[clamp(28px,2.4vw,34px)] leading-[1.05] font-bold whitespace-nowrap tabular-nums">
+                  <CountUp value={stat.value} />
                 </p>
                 <p className="mt-1.5 max-w-[8.5rem] text-sm text-on-dark-muted">{stat.label}</p>
               </li>
