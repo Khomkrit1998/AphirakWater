@@ -40,7 +40,7 @@ export function siteGraphLd(siteUrl: string): JsonLd {
         logo: `${siteUrl}/logo.png`,
         image: `${siteUrl}/logo.png`,
         telephone: site.phoneIntl,
-        sameAs: site.social.map((s) => s.href),
+        sameAs: Object.values(site.social),
         areaServed: provinces,
         openingHoursSpecification: {
           "@type": "OpeningHoursSpecification",

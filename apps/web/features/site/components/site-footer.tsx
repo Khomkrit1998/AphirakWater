@@ -3,6 +3,8 @@ import Link from "next/link"
 
 import { footerColumns, resolveRef, site } from "@workspace/shared"
 
+import { ContactIcons } from "./contact-icons"
+
 export function SiteFooter() {
   return (
     <footer className="bg-footer px-5 pt-[62px] pb-[30px] text-footer-foreground">
@@ -62,20 +64,10 @@ export function SiteFooter() {
             <span>เปิดรับงาน {site.hours}</span>
             <span>งานเร่งด่วน โทรได้ทันที</span>
           </address>
-          <ul aria-label="ช่องทางโซเชียล" className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[14.5px]">
-            {site.social.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-white"
-                >
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <ContactIcons
+            className="mt-4 gap-2"
+            linkClassName="bg-white/5 hover:bg-white/10 hover:text-white"
+          />
         </div>
       </div>
       <div className="mx-auto mt-10 flex max-w-[1200px] flex-wrap justify-between gap-3 border-t border-footer-line pt-[22px] text-[13.5px] text-footer-muted">

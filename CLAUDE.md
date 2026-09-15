@@ -134,5 +134,5 @@ Add rules that apply only to this project. Do not duplicate the Standard here un
   รวม class name ผ่าน `cn()` จาก `@workspace/ui/lib/utils` เท่านั้น ห้ามเรียก `clsx` หรือ `tailwind-merge` ตรงๆ เพราะ helper ทำหน้าที่นี้อยู่แล้ว
 * UI components come from `@workspace/ui` (shadcn, `base-nova` style, built on Base UI). Add a component with `pnpm dlx shadcn@latest add <name> -c apps/web`, then use and extend it. Do not mix in a second component library or primitive set.
   Component UI มาจาก `@workspace/ui` (shadcn สไตล์ `base-nova` ซึ่งสร้างบน Base UI) เพิ่ม component ด้วย `pnpm dlx shadcn@latest add <name> -c apps/web` แล้วนำไปใช้หรือขยายต่อ ห้ามผสม component library หรือ primitive ชุดอื่น
-* Theme switching uses `next-themes`. Icons come from `lucide-react`. Do not add other theme or icon packages.
-  การสลับธีมใช้ `next-themes` ไอคอนใช้ `lucide-react` ห้ามเพิ่ม package ธีมหรือไอคอนตัวอื่น
+* Theme switching uses `next-themes`. Icons come from `lucide-react`; brand logos (LINE, WhatsApp, Facebook, YouTube, TikTok) come from `simple-icons` through `BrandIcon` in `apps/web/features/site`. Do not add other theme or icon packages.
+  การสลับธีมใช้ `next-themes` ไอคอนใช้ `lucide-react` ส่วนโลโก้แบรนด์ (LINE, WhatsApp, Facebook, YouTube, TikTok) ใช้ `simple-icons` ผ่าน `BrandIcon` ใน `apps/web/features/site` ห้ามเพิ่ม package ธีมหรือไอคอนตัวอื่น

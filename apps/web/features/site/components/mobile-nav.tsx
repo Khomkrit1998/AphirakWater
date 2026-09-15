@@ -14,7 +14,8 @@ import {
 } from "@workspace/ui/components/sheet"
 import { cn } from "@workspace/ui/lib/utils"
 
-export function MobileNav() {
+// `contact` is a slot so the server-rendered brand icons stay out of this client bundle.
+export function MobileNav({ contact }: { contact: React.ReactNode }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -24,7 +25,7 @@ export function MobileNav() {
           <Button
             variant="outline"
             size="icon-lg"
-            className="size-10 rounded-[12px] sm:size-11 min-[900px]:hidden"
+            className="size-10 rounded-[12px] min-[900px]:hidden sm:size-11"
             aria-label="เปิดเมนู"
           />
         }
@@ -60,6 +61,7 @@ export function MobileNav() {
             ขอราคาน้ำ
           </Link>
         </div>
+        {contact}
       </SheetContent>
     </Sheet>
   )

@@ -14,7 +14,7 @@ export const siteSchema = z.object({
   lineHref: z.url(),
   whatsappHref: z.url(),
   // Public profiles: shown in the footer and emitted as JSON-LD `sameAs`.
-  social: z.array(z.object({ label: z.string().min(1), href: z.url() })),
+  social: z.object({ facebook: z.url(), youtube: z.url(), tiktok: z.url() }),
   hours: z.string().min(1),
 })
 
@@ -31,11 +31,11 @@ export const site = siteSchema.parse({
   lineId: "@789oxtwd",
   lineHref: "https://lin.ee/QIz0w65",
   whatsappHref: "https://wa.me/66874181199",
-  social: [
-    { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61557088430043" },
-    { label: "YouTube", href: "https://www.youtube.com/@aphirakwater" },
-    { label: "TikTok", href: "https://www.tiktok.com/@aphirakwater" },
-  ],
+  social: {
+    facebook: "https://www.facebook.com/profile.php?id=61557088430043",
+    youtube: "https://www.youtube.com/@aphirakwater",
+    tiktok: "https://www.tiktok.com/@aphirakwater",
+  },
   hours: "24 ชั่วโมง ทุกวัน",
 })
 
