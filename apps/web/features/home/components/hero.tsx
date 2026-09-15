@@ -107,7 +107,7 @@ export function Hero() {
         <div className="mx-auto max-w-[1200px] px-5 py-9 lg:py-12">
           <ul className="grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4">
             {home.stats.map((stat) => (
-              <li key={stat.label} className="text-white">
+              <li key={stat.label} className="motion-rise text-white">
                 <p className="font-heading text-[clamp(28px,2.4vw,34px)] leading-[1.05] font-bold whitespace-nowrap">
                   {stat.value}
                 </p>

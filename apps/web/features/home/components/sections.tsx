@@ -55,7 +55,7 @@ export function ServicesSection({ children }: { children: React.ReactNode }) {
   return (
     <section id="services" className={cn(container, gapTop, "relative isolate scroll-mt-20")}>
       <WaterGlow className="-top-10 -left-56 size-[640px]" />
-      <div className="mb-10 grid gap-4 lg:grid-cols-12 lg:items-end">
+      <div className="motion-rise mb-10 grid gap-4 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
           <Eyebrow>{intro.eyebrow}</Eyebrow>
           <h2 className={cn(h2, "mb-4")}>
@@ -182,7 +182,7 @@ export function WhyUs() {
         </div>
       </div>
       <div className={container}>
-        <div className="relative -mt-16 rounded-[28px] bg-surface-dark p-7 text-white sm:p-10 lg:-mt-44 lg:ml-[calc(100%*5/12)] lg:p-12">
+        <div className="motion-rise relative -mt-16 rounded-[28px] bg-surface-dark p-7 text-white sm:p-10 lg:-mt-44 lg:ml-[calc(100%*5/12)] lg:p-12">
           <Eyebrow className="text-on-dark-muted">{whyUs.eyebrow}</Eyebrow>
           <h2 className={cn(h2, "mb-8 text-white")}>
             <Lines lines={whyUs.heading} />
@@ -215,7 +215,7 @@ export function AreasSection() {
     >
       <WaveField className="inset-x-0 bottom-0 h-72 text-brand opacity-[0.16]" />
       <div className={cn(container, "grid gap-10 py-[clamp(56px,7vw,96px)] lg:grid-cols-12 lg:pb-44")}>
-        <div className="lg:col-span-5">
+        <div className="motion-rise lg:col-span-5">
           <Eyebrow>{areas.eyebrow}</Eyebrow>
           <h2 className={cn(h2, "mb-4")}>
             <Lines lines={areas.heading} />
@@ -265,7 +265,7 @@ export function PricingSection() {
   return (
     <section id="pricing" className={cn(container, "scroll-mt-20")}>
       <div className="grid items-start gap-10 lg:grid-cols-12">
-        <div className="pt-[clamp(56px,7vw,96px)] lg:col-span-5">
+        <div className="motion-rise pt-[clamp(56px,7vw,96px)] lg:col-span-5">
           <Eyebrow>{pricing.eyebrow}</Eyebrow>
           <h2 className={cn(h2, "mb-4")}>
             <Lines lines={pricing.heading} />
@@ -282,7 +282,7 @@ export function PricingSection() {
         <div className="relative z-10 overflow-hidden rounded-[24px] border bg-card shadow-lift lg:col-span-6 lg:col-start-7 lg:-mt-28 lg:motion-parallax lg:[--parallax:-6%]">
           <ul>
             {pricing.volumes.map((v) => (
-              <li key={v.size} className="border-b border-line-soft">
+              <li key={v.size} className="motion-rise border-b border-line-soft">
                 {/* Each size opens the quote form with that volume already chosen. */}
                 <Link
                   href={quoteHref({ volume: v.volume })}
@@ -358,8 +358,14 @@ function PhotoRow({ items, reverse = false }: { items: GalleryItem[]; reverse?: 
       )
     })
 
+  // Each row slides in from the side it scrolls away from.
   return (
-    <div className="mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] motion-reduce:overflow-x-auto motion-reduce:mask-none">
+    <div
+      className={cn(
+        "motion-slide-in mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] motion-reduce:overflow-x-auto motion-reduce:mask-none",
+        reverse ? "[--slide:-6rem]" : "[--slide:6rem]"
+      )}
+    >
       <div
         className={cn(
           "marquee-track gap-4 pr-4 group-hover/rows:paused group-has-checked/gallery:paused motion-reduce:px-5",
@@ -386,7 +392,7 @@ export function WorkGallery() {
       aria-labelledby="gallery-heading"
       className={cn(gapTop, "group/gallery scroll-mt-20")}
     >
-      <div className={cn(container, "mb-10 flex flex-wrap items-end justify-between gap-6")}>
+      <div className={cn(container, "motion-rise mb-10 flex flex-wrap items-end justify-between gap-6")}>
         <div>
           <Eyebrow>{gallery.eyebrow}</Eyebrow>
           <h2 id="gallery-heading" className={cn(h2, "mb-4")}>
@@ -432,9 +438,9 @@ export function ReviewsSection() {
 
   return (
     <section id="reviews" className={cn(container, gapTop, "scroll-mt-20")}>
-      <h2 className={cn(h2, "mb-10")}>{reviews.heading}</h2>
+      <h2 className={cn(h2, "motion-rise mb-10")}>{reviews.heading}</h2>
       <div className="grid gap-10 lg:grid-cols-12">
-        <figure className="lg:col-span-7">
+        <figure className="motion-rise lg:col-span-7">
           {stars}
           <blockquote className="mb-7 font-heading text-[clamp(22px,2.6vw,32px)] leading-[1.5] font-medium text-foreground">
             “{featured.text}”
@@ -443,7 +449,7 @@ export function ReviewsSection() {
         </figure>
         <ul className="grid content-start gap-8 border-t pt-8 lg:col-span-4 lg:col-start-9 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           {others.map((review) => (
-            <li key={review.name}>
+            <li key={review.name} className="motion-rise">
               <figure>
                 {stars}
                 <blockquote className="mb-4 text-[15.5px] leading-[1.7] text-ink-700">
@@ -465,7 +471,7 @@ export function FaqSection() {
       <WaterGlow className="top-0 -right-64 size-[680px]" />
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <div className="lg:sticky lg:top-28">
+          <div className="motion-rise lg:sticky lg:top-28">
             <h2 className={cn(h2, "mb-4")}>{home.faq.heading}</h2>
             <p className="text-[16px] leading-[1.7] text-ink-600">
               ไม่พบคำถามที่ต้องการ โทร{" "}
@@ -476,7 +482,8 @@ export function FaqSection() {
             </p>
           </div>
         </div>
-        <FaqList name="home-faq" items={home.faq.items} className="lg:col-span-8" />
+        {/* *: reaches each question, which FaqList renders as direct children */}
+        <FaqList name="home-faq" items={home.faq.items} className="lg:col-span-8 *:motion-rise" />
       </div>
     </section>
   )
@@ -492,13 +499,13 @@ export function CtaBand() {
         24 ชม.
       </BigWord>
       <div className={cn(container, "grid items-end gap-8 py-[clamp(56px,7vw,96px)] lg:grid-cols-12")}>
-        <div className="lg:col-span-7">
+        <div className="motion-rise lg:col-span-7">
           <h2 className="mb-4 text-[clamp(30px,4vw,52px)] leading-[1.12] text-white">
             <Lines lines={cta.heading} />
           </h2>
           <p className="text-[17px] leading-[1.7] text-on-dark-muted">{cta.lead}</p>
         </div>
-        <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+        <div className="motion-rise flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
           <a
             href={site.phoneHref}
             className={cn(

@@ -400,6 +400,21 @@
   }
 }
 
+/* Element slides in sideways while it enters. --slide sets the start offset
+   (positive = from the right). Something above it must clip horizontal overflow. */
+@keyframes story-slide-in {
+  from { opacity: 0; translate: var(--slide, 3rem) 0; }
+}
+@utility motion-slide-in {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: story-slide-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
 /* Image settles from a slight zoom while its frame passes (parent clips overflow). */
 @utility motion-zoom-out {
   @media (prefers-reduced-motion: no-preference) {
