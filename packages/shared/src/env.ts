@@ -6,6 +6,6 @@ export const publicEnvSchema = z.object({
   // Set NEXT_PUBLIC_SITE_URL to the real domain before going live.
   NEXT_PUBLIC_SITE_URL: z
     .url()
-    .default("https://apirakwater.co.th")
+    .default("https://apirakwater.com")
     .transform((url) => url.replace(/\/+$/, "")),
 })
