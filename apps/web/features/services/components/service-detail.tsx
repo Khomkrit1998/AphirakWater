@@ -141,8 +141,8 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
               <Link
                 href="/quote"
                 className={cn(
-                  buttonVariants({ variant: "call" }),
-                  "mb-2.5 h-auto w-full rounded-[12px] py-3.5 text-[15.5px] font-semibold"
+                  buttonVariants(),
+                  "mb-2.5 h-auto w-full shadow-cta rounded-[12px] py-3.5 text-[15.5px] font-semibold"
                 )}
               >
                 ขอใบเสนอราคา

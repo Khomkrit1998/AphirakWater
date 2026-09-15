@@ -39,7 +39,9 @@ const buttonVariants = cva(
         cta: "h-auto rounded-[14px] px-7 py-4 text-base font-semibold",
         "cta-sm":
           "h-auto gap-2 rounded-[13px] px-[26px] py-[15px] text-[15.5px] font-semibold",
-        nav: "h-auto rounded-[12px] px-5 py-[11px] text-[14.5px] font-semibold",
+        // h-11 matches the 44px logo, so the header row height stays fixed
+        // (the home reading-progress line sits right under it).
+        nav: "h-11 rounded-[12px] px-5 text-[14.5px] font-semibold",
       },
     },
     defaultVariants: {

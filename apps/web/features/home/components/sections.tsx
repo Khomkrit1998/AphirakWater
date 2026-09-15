@@ -23,7 +23,7 @@ const h2 = "text-[clamp(28px,3.4vw,42px)] leading-[1.15]"
 
 function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={cn("mb-3 text-[13.5px] font-semibold tracking-[0.1em] text-brand", className)}>
+    <p className={cn("mb-3 text-[13.5px] font-semibold tracking-[0.04em] text-brand", className)}>
       {children}
     </p>
   )
@@ -437,7 +437,8 @@ export function CtaBand() {
   return (
     <section id="contact" className="relative isolate mt-[clamp(72px,9vw,120px)] scroll-mt-20 overflow-clip bg-surface-dark text-white">
       <WaveField className="inset-y-0 right-0 w-full text-white opacity-[0.1] lg:w-2/3" />
-      <BigWord className="right-[-7%] bottom-[-0.3em] text-[clamp(140px,19vw,300px)] text-white opacity-[0.1]">
+      {/* Top-right, clear of the translucent button row; hidden where the buttons stack. */}
+      <BigWord className="top-[-0.4em] right-[-3%] hidden text-[clamp(120px,11vw,170px)] text-white opacity-[0.1] lg:block">
         24 ชม.
       </BigWord>
       <div className={cn(container, "grid items-end gap-8 py-[clamp(56px,7vw,96px)] lg:grid-cols-12")}>

@@ -85,7 +85,7 @@ export const home = homeSchema.parse({
   stats: [
     { value: "10+", label: "ปีประสบการณ์" },
     { value: "1,000+", label: "เที่ยวส่งน้ำต่อปี" },
-    { value: "12", label: "พื้นที่ให้บริการ" },
+    { value: "2 จังหวัด", label: "ภูเก็ต · พังงา" },
     { value: "24 ชม.", label: "รับงานทุกวัน ไม่มีวันหยุด" },
   ],
   services: {
