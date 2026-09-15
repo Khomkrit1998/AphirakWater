@@ -166,16 +166,20 @@ export function WhyUs() {
   const { whyUs } = home
   return (
     <section id="why-us" className={cn(gapTop, "scroll-mt-4")}>
-      {/* overflow-clip (not hidden) so the image keeps the page as its scroll timeline */}
+      {/* overflow-clip (not hidden) so the image keeps the page as its scroll timeline.
+          The image layer is 12% taller than the frame on each side, so the 8% parallax
+          (of its own 124% height, ~10% of the frame) never shows an edge. */}
       <div className="relative h-[clamp(240px,40vw,520px)] overflow-clip bg-tint">
-        <Image
-          src={fleet}
-          alt={whyUs.imageAlt}
-          fill
-          placeholder="blur"
-          sizes="100vw"
-          className="motion-zoom-out object-cover object-[center_55%]"
-        />
+        <div className="motion-parallax absolute inset-x-0 -inset-y-[12%] [--parallax:8%]">
+          <Image
+            src={fleet}
+            alt={whyUs.imageAlt}
+            fill
+            placeholder="blur"
+            sizes="100vw"
+            className="motion-zoom-out object-cover object-[center_55%]"
+          />
+        </div>
       </div>
       <div className={container}>
         <div className="relative -mt-16 rounded-[28px] bg-surface-dark p-7 text-white sm:p-10 lg:-mt-44 lg:ml-[calc(100%*5/12)] lg:p-12">
@@ -274,7 +278,8 @@ export function PricingSection() {
             {pricing.cta}
           </Link>
         </div>
-        <div className="relative z-10 overflow-hidden rounded-[24px] border bg-card shadow-lift lg:col-span-6 lg:col-start-7 lg:-mt-28">
+        {/* From lg the card overlaps the areas band and floats up a little faster than the page. */}
+        <div className="relative z-10 overflow-hidden rounded-[24px] border bg-card shadow-lift lg:col-span-6 lg:col-start-7 lg:-mt-28 lg:motion-parallax lg:[--parallax:-6%]">
           <ul>
             {pricing.volumes.map((v) => (
               <li key={v.size} className="border-b border-line-soft">

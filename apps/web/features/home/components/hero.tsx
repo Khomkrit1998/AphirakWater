@@ -25,43 +25,44 @@ const band = "absolute inset-x-0 top-0 -z-10 h-[92vw] max-h-[480px] lg:inset-0 l
 // hero-drift in globals.css). From lg they fill the hero behind copy on the left;
 // below lg they sit in a band on top that fades into the copy, so the photo is
 // not buried under the text.
+// Parallax on the way out: the photos (with their gradient, so the band's faded
+// edge stays put) lag behind the scroll and the copy runs slightly ahead.
 export function Hero() {
   const { hero } = home
   return (
     <>
       <section id="top" className="relative isolate overflow-clip bg-night text-white">
-        {hero.slides.map((slide, i) => {
-          const photo = slidePhotos[slide.image]
-          return (
-            <div key={slide.image} className={cn(band, "overflow-clip", i > 0 && "hero-slide")}>
-              <Image
-                src={photo.src}
-                alt={slide.alt}
-                fill
-                sizes="100vw"
-                placeholder="blur"
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                className={cn("hero-drift object-cover", photo.position)}
-              />
-            </div>
-          )
-        })}
+        <div className={cn(band, "motion-parallax-exit [--parallax:30%]")}>
+          {hero.slides.map((slide, i) => {
+            const photo = slidePhotos[slide.image]
+            return (
+              <div key={slide.image} className={cn("absolute inset-0 overflow-clip", i > 0 && "hero-slide")}>
+                <Image
+                  src={photo.src}
+                  alt={slide.alt}
+                  fill
+                  sizes="100vw"
+                  placeholder="blur"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : "auto"}
+                  className={cn("hero-drift object-cover", photo.position)}
+                />
+              </div>
+            )
+          })}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-linear-to-t from-night via-night/45 via-35% to-night/5 lg:bg-linear-to-r lg:from-night lg:from-15% lg:via-night/70 lg:via-50% lg:to-night/5"
+          />
+        </div>
         <div
           aria-hidden="true"
-          className={cn(
-            band,
-            "bg-linear-to-t from-night via-night/45 via-35% to-night/5 lg:bg-linear-to-r lg:from-night lg:from-15% lg:via-night/70 lg:via-50% lg:to-night/5"
-          )}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-48 -left-48 -z-10 size-[760px] rounded-full bg-radial from-live/22 via-live/6 via-45% to-transparent to-70%"
+          className="motion-parallax-exit pointer-events-none absolute -top-48 -left-48 -z-10 size-[760px] rounded-full bg-radial from-live/22 via-live/6 via-45% to-transparent to-70% [--parallax:15%]"
         />
 
         {/* Below lg the copy starts over the band's faded bottom. From lg it fills the
             first screen below the header and contact strip. */}
-        <div className="mx-auto flex max-w-[1200px] flex-col px-5 pt-[min(68vw,380px)] pb-10 lg:min-h-[max(600px,min(calc(100svh-110px),860px))] lg:justify-center lg:py-20">
+        <div className="motion-parallax-exit mx-auto flex max-w-[1200px] flex-col px-5 pt-[min(68vw,380px)] pb-10 [--parallax:-12%] lg:min-h-[max(600px,min(calc(100svh-110px),860px))] lg:justify-center lg:py-20">
           <div className="max-w-[640px]">
             <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-3.5 py-[7px] text-[13px] font-semibold text-on-dark-muted backdrop-blur-sm">
               <span aria-hidden="true" className="size-[7px] rounded-full bg-live" />

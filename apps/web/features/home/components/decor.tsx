@@ -2,9 +2,16 @@ import { cn } from "@workspace/ui/lib/utils"
 
 // Purely decorative background layers. Parents need `relative isolate` so the
 // -z-10 layers sit above the section background but below its content.
+// Both drift with a light parallax; their edges are masked or transparent, so the
+// shift never shows a hard edge.
 
 export function WaveField({ className }: { className?: string }) {
-  return <div aria-hidden="true" className={cn("wave-field absolute -z-10", className)} />
+  return (
+    <div
+      aria-hidden="true"
+      className={cn("wave-field motion-parallax absolute -z-10 [--parallax:12%]", className)}
+    />
+  )
 }
 
 export function WaterGlow({ className }: { className?: string }) {
@@ -12,7 +19,7 @@ export function WaterGlow({ className }: { className?: string }) {
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute -z-10 rounded-full bg-radial from-brand/14 via-brand/5 via-45% to-transparent to-70%",
+        "motion-parallax pointer-events-none absolute -z-10 rounded-full [--parallax:20%] bg-radial from-brand/14 via-brand/5 via-45% to-transparent to-70%",
         className
       )}
     />

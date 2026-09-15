@@ -333,6 +333,38 @@
   }
 }
 
+/* Parallax: layers move at a different speed from the page, so they read as nearer
+   or further. --parallax sets how far (a % of the element's own height): positive
+   lags behind the scroll (background), negative runs ahead (foreground). */
+@keyframes parallax {
+  from { translate: 0 calc(var(--parallax, 10%) * -1); }
+  to { translate: 0 var(--parallax, 10%); }
+}
+@keyframes parallax-exit {
+  to { translate: 0 var(--parallax, 10%); }
+}
+/* While the element passes through the screen. A clipped image needs extra height
+   above and below it of at least --parallax, or its edge shows. */
+@utility motion-parallax {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+/* From rest while it scrolls away: for the hero, which starts on screen. */
+@utility motion-parallax-exit {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: parallax-exit linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
 /* Reading progress for the whole page (compact wayfinding on smaller screens).
    It reports position rather than decorating, so it also runs with reduced motion. */
 @utility reading-progress {
