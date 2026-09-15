@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { footerColumns, resolveRef, site } from "@workspace/shared"
-import { ImagePlaceholder } from "@workspace/ui/components/image-placeholder"
 
 export function SiteFooter() {
   return (
@@ -57,12 +56,26 @@ export function SiteFooter() {
             <a href={site.lineHref} className="hover:text-white">
               LINE: {site.lineId}
             </a>
+            <a href={site.whatsappHref} className="hover:text-white">
+              WhatsApp: {site.phone}
+            </a>
             <span>เปิดรับงาน {site.hours}</span>
             <span>งานเร่งด่วน โทรได้ทันที</span>
           </address>
-          <div className="mt-4 h-[110px] overflow-hidden rounded-[14px] border border-footer-line">
-            <ImagePlaceholder label="ภาพ Google Map ที่ตั้ง" className="text-xs" />
-          </div>
+          <ul aria-label="ช่องทางโซเชียล" className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-[14.5px]">
+            {site.social.map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-white"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="mx-auto mt-10 flex max-w-[1200px] flex-wrap justify-between gap-3 border-t border-footer-line pt-[22px] text-[13.5px] text-footer-muted">

@@ -12,6 +12,9 @@ export const siteSchema = z.object({
   phoneIntl: z.string().regex(/^\+66\d{8,9}$/),
   lineId: z.string().min(1),
   lineHref: z.url(),
+  whatsappHref: z.url(),
+  // Public profiles: shown in the footer and emitted as JSON-LD `sameAs`.
+  social: z.array(z.object({ label: z.string().min(1), href: z.url() })),
   hours: z.string().min(1),
 })
 
@@ -24,9 +27,15 @@ export const site = siteSchema.parse({
   phone: "087-418-1199",
   phoneHref: "tel:0874181199",
   phoneIntl: "+66874181199",
-  // Unconfirmed: LINE ID taken from the prototype. Confirm with the client.
-  lineId: "@0874181199",
-  lineHref: "https://line.me/R/ti/p/%400874181199",
+  // lin.ee link supplied by the client; it redirects to @789oxtwd.
+  lineId: "@789oxtwd",
+  lineHref: "https://lin.ee/QIz0w65",
+  whatsappHref: "https://wa.me/66874181199",
+  social: [
+    { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61557088430043" },
+    { label: "YouTube", href: "https://www.youtube.com/@aphirakwater" },
+    { label: "TikTok", href: "https://www.tiktok.com/@aphirakwater" },
+  ],
   hours: "24 ชั่วโมง ทุกวัน",
 })
 

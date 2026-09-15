@@ -19,6 +19,7 @@ export function AreaDetail({
   const contact = [
     { label: "โทรศัพท์", value: <a href={site.phoneHref} className="text-brand">{site.phone}</a> },
     { label: "LINE", value: <a href={site.lineHref} className="text-brand">{site.lineId}</a> },
+    { label: "WhatsApp", value: <a href={site.whatsappHref} className="text-brand">{site.phone}</a> },
     { label: "เวลารับงาน", value: "24 ชั่วโมง" },
     { label: "งานเร่งด่วน", value: "24 ชั่วโมง" },
   ]
