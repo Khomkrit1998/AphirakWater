@@ -1,8 +1,8 @@
-import { quoteResponseSchema, type QuoteRequest } from "@workspace/shared"
+import { quoteResponseSchema, type QuoteSubmission } from "@workspace/shared"
 
 const fallback = "ส่งคำขอไม่สำเร็จ กรุณาลองใหม่อีกครั้ง หรือโทรหาเราโดยตรง"
 
-export async function submitQuote(values: QuoteRequest) {
+export async function submitQuote(values: QuoteSubmission) {
   const res = await fetch("/api/quote", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

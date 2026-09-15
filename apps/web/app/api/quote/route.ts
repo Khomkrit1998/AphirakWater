@@ -1,4 +1,8 @@
-import { quoteRequestSchema, type QuoteResponse } from "@workspace/shared"
+import {
+  quoteSubmissionSchema,
+  spamReason,
+  type QuoteResponse,
+} from "@workspace/shared"
 
 import { sendQuoteEmail } from "@/features/quote"
 import { getQuoteEmailEnv } from "@/lib/env"
@@ -7,11 +11,24 @@ const callUs = (message: string, status: number) =>
   Response.json({ ok: false, message } satisfies QuoteResponse, { status })
 
 export async function POST(request: Request) {
-  const parsed = quoteRequestSchema.safeParse(
+  const parsed = quoteSubmissionSchema.safeParse(
     await request.json().catch(() => null)
   )
   if (!parsed.success) {
     return callUs(parsed.error.issues[0]?.message ?? "ข้อมูลไม่ถูกต้อง", 400)
+  }
+
+  // Refuse openly, never with a fake success: a real customer caught by
+  // mistake must know the request did not arrive.
+  const spam = spamReason(parsed.data)
+  if (spam) {
+    console.warn(`quote rejected as spam: ${spam}`)
+    return callUs(
+      spam === "too-fast"
+        ? "กรุณารอสักครู่แล้วกดส่งอีกครั้ง หรือโทรหาเราโดยตรง"
+        : "ส่งคำขอไม่สำเร็จ กรุณาโทรหาเราโดยตรง",
+      400
+    )
   }
 
   // Never answer "received" unless the email really went out.

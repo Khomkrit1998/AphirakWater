@@ -83,6 +83,31 @@ export const quoteRequestSchema = z.object({
 export type QuoteRequestInput = z.input<typeof quoteRequestSchema>
 export type QuoteRequest = z.output<typeof quoteRequestSchema>
 
+// Spam checks on the public quote form, not customer data (decision 0008).
+// `website` is a honeypot: hidden from people, so only bots fill it.
+// A missing field means a page opened before these checks were deployed.
+const reload = "กรุณาโหลดหน้านี้ใหม่แล้วส่งอีกครั้ง หรือโทรหาเราโดยตรง"
+export const quoteFormSchema = quoteRequestSchema.extend({ website: z.string(reload) })
+export type QuoteFormInput = z.input<typeof quoteFormSchema>
+export type QuoteForm = z.output<typeof quoteFormSchema>
+
+// `elapsedMs`: how long the form was open before this submit.
+export const quoteSubmissionSchema = quoteFormSchema.extend({
+  elapsedMs: z.number(reload).nonnegative(reload),
+})
+export type QuoteSubmission = z.output<typeof quoteSubmissionSchema>
+
+// ponytail: both signals come from the browser, so a bot that posts to the API
+// directly can fake them. Add Cloudflare Turnstile when that spam shows up.
+// Tune QUOTE_MIN_FILL_MS if real customers hit "too-fast" (server logs it).
+export const QUOTE_MIN_FILL_MS = 2000
+
+export function spamReason(submission: QuoteSubmission) {
+  if (submission.website.trim() !== "") return "honeypot"
+  if (submission.elapsedMs < QUOTE_MIN_FILL_MS) return "too-fast"
+  return null
+}
+
 export const quoteResponseSchema = z.discriminatedUnion("ok", [
   z.object({ ok: z.literal(true), reference: z.string().min(1) }),
   z.object({ ok: z.literal(false), message: z.string().min(1) }),

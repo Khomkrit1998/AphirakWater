@@ -5,7 +5,10 @@ import { resolveRef } from "@workspace/shared/links"
 import {
   quoteDefaultsSchema,
   quoteHref,
+  QUOTE_MIN_FILL_MS,
   quoteRequestSchema,
+  quoteSubmissionSchema,
+  spamReason,
   todayInBangkok,
 } from "@workspace/shared/quote"
 import { services } from "@workspace/shared/service"
@@ -34,6 +37,13 @@ assert.ok(!parse({ volume: "999" }), "unknown volume")
 assert.ok(!parse({ date: "2020-01-01" }), "past date")
 assert.ok(parse({ date: todayInBangkok() }), "today is allowed")
 assert.equal(todayInBangkok(new Date("2026-09-13T18:00:00Z")), "2026-09-14", "Bangkok is UTC+7")
+
+const human = quoteSubmissionSchema.parse({ ...valid, website: "", elapsedMs: QUOTE_MIN_FILL_MS })
+assert.equal(spamReason(human), null, "person who took long enough")
+assert.equal(spamReason({ ...human, website: "https://spam.example" }), "honeypot")
+assert.equal(spamReason({ ...human, website: "   " }), null, "whitespace is not a filled honeypot")
+assert.equal(spamReason({ ...human, elapsedMs: QUOTE_MIN_FILL_MS - 1 }), "too-fast")
+assert.ok(!quoteSubmissionSchema.safeParse(valid).success, "direct post without spam fields is rejected")
 
 assert.deepEqual(quoteDefaultsSchema.parse({ service: "hotel", volume: "10000" }), { service: "hotel", volume: "10000" })
 assert.deepEqual(quoteDefaultsSchema.parse({ service: "spa", volume: ["1", "2"] }), { service: undefined, volume: undefined }, "bad params ignored")

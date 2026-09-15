@@ -2,17 +2,18 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CheckIcon, Loader2Icon } from "lucide-react"
+import { useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 
 import {
-  quoteRequestSchema,
+  quoteFormSchema,
   serviceTypeOptions,
   site,
   todayInBangkok,
   volumeOptions,
   type QuoteDefaults,
-  type QuoteRequest,
-  type QuoteRequestInput,
+  type QuoteForm as QuoteFormValues,
+  type QuoteFormInput,
 } from "@workspace/shared"
 import { Button, buttonVariants } from "@workspace/ui/components/button"
 import { CheckMark } from "@workspace/ui/components/check-list"
@@ -27,7 +28,7 @@ import { cn } from "@workspace/ui/lib/utils"
 
 import { useSubmitQuote } from "../hooks/use-submit-quote"
 
-const defaultValues: QuoteRequestInput = {
+const defaultValues: QuoteFormInput = {
   name: "",
   phone: "",
   lineId: "",
@@ -36,6 +37,7 @@ const defaultValues: QuoteRequestInput = {
   date: "",
   location: "",
   details: "",
+  website: "",
 }
 
 const control =
@@ -49,12 +51,17 @@ const card =
 
 export function QuoteForm({ defaults }: { defaults: QuoteDefaults }) {
   const mutation = useSubmitQuote()
+  // Spam check: bots submit within moments of the form appearing.
+  const openedAt = useRef(0)
+  useEffect(() => {
+    openedAt.current = performance.now()
+  }, [])
   const {
     register,
     handleSubmit,
     formState: { errors, dirtyFields },
-  } = useForm<QuoteRequestInput, unknown, QuoteRequest>({
-    resolver: zodResolver(quoteRequestSchema),
+  } = useForm<QuoteFormInput, unknown, QuoteFormValues>({
+    resolver: zodResolver(quoteFormSchema),
     defaultValues: {
       ...defaultValues,
       serviceType: defaults.service ?? "",
@@ -65,7 +72,7 @@ export function QuoteForm({ defaults }: { defaults: QuoteDefaults }) {
   const prefilled = (name: "serviceType" | "volume") =>
     Boolean(name === "serviceType" ? defaults.service : defaults.volume) && !dirtyFields[name]
 
-  const field = (name: keyof QuoteRequestInput) => ({
+  const field = (name: keyof QuoteFormInput) => ({
     id: name,
     "aria-invalid": errors[name] ? true : undefined,
     "aria-describedby": errors[name] ? `${name}-error` : undefined,
@@ -95,9 +102,21 @@ export function QuoteForm({ defaults }: { defaults: QuoteDefaults }) {
   return (
     <form
       noValidate
-      onSubmit={handleSubmit((values) => mutation.mutate(values))}
+      onSubmit={(event) =>
+        handleSubmit((values) =>
+          mutation.mutate({
+            ...values,
+            elapsedMs: Math.round(performance.now() - openedAt.current),
+          })
+        )(event)
+      }
       className={cn(card, "grid gap-[18px]")}
     >
+      {/* Honeypot: hidden from sight, keyboard and screen readers, so only bots fill it. */}
+      <div aria-hidden="true" className="sr-only">
+        <label htmlFor="website">เว็บไซต์</label>
+        <input {...register("website")} id="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       {mutation.isError && (
         <div
           role="alert"
