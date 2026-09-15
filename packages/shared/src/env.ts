@@ -2,8 +2,8 @@ import { z } from "zod"
 
 // Public env shared by both apps. Each app parses process.env with this schema.
 export const publicEnvSchema = z.object({
-  // Unconfirmed: the default is the example domain from the design prototype.
-  // Set NEXT_PUBLIC_SITE_URL to the real domain before going live.
+  // The default is the real domain (confirmed by the Developer, 2026-09-15).
+  // Set NEXT_PUBLIC_SITE_URL only to override it, e.g. for a staging URL.
   NEXT_PUBLIC_SITE_URL: z
     .url()
     .default("https://apirakwater.com")
