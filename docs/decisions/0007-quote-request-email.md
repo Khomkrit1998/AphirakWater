@@ -24,7 +24,7 @@ Developer เลือกให้ `POST /api/quote` ส่งคำขอเป
 
 ตรวจด้วย zod ใน `apps/web/lib/env.ts` (`getQuoteEmailEnv`) ตอนมี request ไม่ใช่ตอน build และประกาศไว้ใน `globalPassThroughEnv` ของ `turbo.json` แล้ว (turbo จะไม่กรองทิ้ง และค่าไม่มีผลต่อ cache)
 
-ตอน dev ให้ใส่ใน `apps/web/.env.local` (`.env*` อยู่ใน `.gitignore` แล้ว)
+ตอน dev ให้คัดลอก `apps/web/.env.example` เป็น `apps/web/.env.local` (`.env*` อยู่ใน `.gitignore` แล้ว ยกเว้น `.env.example`)
 
 ## วิธีเปิดใช้งาน
 

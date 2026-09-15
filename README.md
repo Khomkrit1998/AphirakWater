@@ -45,6 +45,8 @@ Configure the required environment variables before running. Do not commit secre
 
 กำหนด Environment Variables ที่จำเป็นก่อนรัน ห้าม Commit Secret หรือ Credential ลง Repository
 
+ตัวแปรของ `apps/web` อยู่ใน `apps/web/.env.example` ให้คัดลอกเป็น `apps/web/.env.local`
+
 ---
 
 ## Workspaces / โครงสร้าง Monorepo
