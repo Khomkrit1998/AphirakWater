@@ -36,6 +36,9 @@ pnpm typecheck && pnpm lint
 
 # Build
 pnpm build
+
+# Deploy apps/web → Cloudflare Workers (build บน Linux เท่านั้น ดู docs/decisions/0011)
+pnpm --filter web run deploy   # ต้องมี run: `pnpm deploy` เป็นคำสั่งในตัวของ pnpm
 ```
 
 Configure the required environment variables before running. Do not commit secrets or credentials.

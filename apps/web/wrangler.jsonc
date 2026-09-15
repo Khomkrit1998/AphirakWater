@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aphirakwater-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // next/image goes through Cloudflare Images (free: 5,000 unique
+  // transformations a month; the site has ~20 source images).
+  "images": {
+    "binding": "IMAGES"
+  },
+  // Secrets are not kept here. Set them once per Worker:
+  //   pnpm wrangler secret put RESEND_API_KEY   (also QUOTE_EMAIL_TO, QUOTE_EMAIL_FROM)
+  "observability": {
+    "enabled": true
+  }
+}

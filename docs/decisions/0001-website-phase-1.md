@@ -30,7 +30,7 @@
 
 ## SEO layer (เพิ่ม 2026-09-14)
 
-* `NEXT_PUBLIC_SITE_URL` ตรวจด้วย zod ใน `apps/web/lib/env.ts` ค่า default คือโดเมนจริง `https://apirakwater.com` (Developer ยืนยัน 2026-09-15 · เดิมเป็นโดเมนตัวอย่าง `apirakwater.co.th` จาก prototype)
+* `NEXT_PUBLIC_SITE_URL` ตรวจด้วย zod ใน `apps/web/lib/env.ts` ค่า default คือโดเมนจริง `https://aphirakwater.com` (Developer ยืนยัน 2026-09-16 · ก่อนหน้าบันทึกเป็น `apirakwater.com` ไม่มี h และเดิมเป็นโดเมนตัวอย่าง `apirakwater.co.th` จาก prototype)
 * ทุกหน้า: `metadataBase`, canonical, Open Graph (`apps/web/lib/metadata.ts`) และ JSON-LD `WebSite` + `LocalBusiness` จาก layout
 * ต่อหน้า: home `FAQPage` · service `Service` + `FAQPage` · area `Service` (areaServed + zones) + `FAQPage` · article `Article` · ทุกหน้าที่มี breadcrumb ได้ `BreadcrumbList` จาก component `Breadcrumbs`
 * JSON-LD builders อยู่ใน `packages/shared/src/jsonld.ts` (admin ใช้ตรวจ Structured Data ได้), render ด้วย `@workspace/ui/components/json-ld` ซึ่ง escape `<`
@@ -38,7 +38,7 @@
 
 ## ต้องยืนยันกับเจ้าของก่อนขึ้นจริง
 
-* ~~โดเมนจริง~~ `apirakwater.com` (ยืนยันแล้ว), ที่อยู่ + พิกัด (Google ต้องใช้ `address` สำหรับ LocalBusiness rich result), รูปปกบทความ (Article rich result ต้องมี `image`), OG image 1200×630
+* ~~โดเมนจริง~~ `aphirakwater.com` (ยืนยันแล้ว 2026-09-16), ที่อยู่ + พิกัด (Google ต้องใช้ `address` สำหรับ LocalBusiness rich result), รูปปกบทความ (Article rich result ต้องมี `image`), OG image 1200×630
 * ~~LINE ID~~ ยืนยันแล้ว 2026-09-15: ลิงก์ `https://lin.ee/QIz0w65` (ID `@789oxtwd`, ค่าเดิม `@0874181199` ผิด) พร้อม WhatsApp, Facebook, YouTube, TikTok (`packages/shared/src/site.ts`)
 * ตัวเลข trust 10+ / 1,000+ และรีวิวลูกค้า 3 รายการ (ตัวเลข "12 พื้นที่" ขัดกับรายการพื้นที่ 8 แห่ง จึงเปลี่ยนเป็น "2 จังหวัด ภูเก็ต · พังงา" ตามข้อมูลที่ยืนยันแล้ว 2026-09-15) (`packages/shared/src/home.ts`)
 * รูปจริงทุกช่อง (ตอนนี้เป็น `ImagePlaceholder`) และ Google Maps
