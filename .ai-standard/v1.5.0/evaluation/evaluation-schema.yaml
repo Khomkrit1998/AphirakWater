@@ -1,0 +1,131 @@
+# Evaluation Schema / โครงสร้างข้อมูลการประเมิน
+#
+# Conceptual data model of the Evaluation Framework. Version 1.
+# It is deliberately small and tool-agnostic. Any YAML- or JSON-compatible store may hold it.
+# Required fields are marked "required". Everything else is optional and omitted when unknown.
+#
+# โครงสร้างข้อมูลเชิงแนวคิดของกรอบการประเมิน Version 1
+# ตั้งใจให้เล็กและไม่ผูกกับเครื่องมือ เก็บใน YAML หรือ JSON ที่ไหนก็ได้
+# ช่องที่ต้องมีระบุว่า "required" ที่เหลือเป็นช่องเสริม ละไว้เมื่อไม่รู้ค่า
+#
+# Three documents use this schema / เอกสารสามแบบใช้ Schema นี้:
+#   evidence     one per task, in the Handoff (templates/handoff.md)         / หนึ่งชุดต่อ Task ใน Handoff
+#   evaluation   one per report (templates/evaluation-report.md)             / หนึ่งชุดต่อ Report
+#   improvement  one per ADJUST or IMPROVE (templates/improvement-record.md) / หนึ่งชุดต่อ ADJUST หรือ IMPROVE
+
+schema_version: 1
+
+# ---------------------------------------------------------------------------
+# EVIDENCE: what happened in one task. Written once. See evaluation/evidence.md.
+# หลักฐาน: สิ่งที่เกิดขึ้นในหนึ่ง Task เขียนครั้งเดียว ดู evaluation/evidence.md
+# ---------------------------------------------------------------------------
+evidence:
+  task:
+    id: string            # required. "YYYY-MM-DD-task-slug", equals the Handoff file name / ตรงกับชื่อไฟล์ Handoff
+    type: enum            # required. feature | fix | refactor | chore | docs
+    risk: enum            # required. low | medium | high  (from the Understand step / จากขั้น Understand)
+    status: enum          # required. pass | human | stop  (decision.final in lower case; decision.final wins when they differ)
+  standard_version: string  # required. "X.Y.Z". The Standard version in use = the loop version / Version ของ Standard = Version ของ Loop
+  execution:
+    attempts: integer         # required. Full runs of the Verification Commands, >= 1 / จำนวนครั้งที่รันคำสั่งตรวจสอบครบชุด
+    duration_minutes: integer # required. add a "# estimated" comment when estimated / ประมาณได้ ใส่ comment "# estimated"
+    attempt_cap: integer      # optional. the cap that applied; 3 when absent / จำนวนรอบสูงสุดที่ใช้ ถ้าไม่มีถือเป็น 3
+    tokens: integer           # optional
+  verification:               # result of the LAST run; not-run = the loop stopped before this check ran / ผลของการรันครั้งสุดท้าย not-run = Loop หยุดก่อนการตรวจนี้ได้รัน
+    typecheck: enum           # required. pass | fail | baseline | none | not-run
+    lint: enum                # required. pass | fail | baseline | none | not-run
+    test: enum                # required. pass | fail | baseline | none | not-run
+    build: enum               # required. pass | fail | baseline | none | not-run
+    acceptance_criteria: enum # required. pass | fail | none | not-run  (none = no criteria defined; not-run = stopped before they were checked)
+  decision:
+    final: enum               # required. PASS | HUMAN | STOP  (workflows/verify-loop.md)
+    reason: string            # required. one line
+  failure:
+    occurred: boolean         # required. any attempt failed, or the decision was not PASS
+    category: enum            # required. none | requirement | planning | implementation | verification | tool | context | state | environment | regression | no-progress | human-dependency  (evaluation/failure-taxonomy.md)
+    reason: string            # required. one line, or "none"
+  human:
+    intervention: boolean     # required. the Developer had to act during the task
+    type: enum                # required. none | expected-approval | expected-review | unexpected | emergency  (evaluation/framework.md section 7; record the most severe when several happened)
+    reason: string            # required. one line, or "none"
+  regression: boolean         # optional. existing behavior broke
+  files_changed: integer      # optional
+  baseline:
+    compared_to: string       # optional. the Baseline entry used for a "no new failures" gate / Baseline ที่ใช้เป็นเกณฑ์ "ไม่มี Failure ใหม่"
+
+# ---------------------------------------------------------------------------
+# EVALUATION: what the evidence of many tasks says. One per report. See evaluation/metrics.md.
+# การประเมิน: หลักฐานของหลาย Task บอกอะไร หนึ่งชุดต่อ Report ดู evaluation/metrics.md
+# ---------------------------------------------------------------------------
+evaluation:                   # rates are fractions 0-1, not percentages / อัตราเป็นเศษส่วน 0-1 ไม่ใช่เปอร์เซ็นต์
+  report_id: string           # required. "YYYY-MM-DD", equals the report file name / ตรงกับชื่อไฟล์ Report
+  period:
+    from: string              # required. "YYYY-MM-DD"
+    to: string                # required. "YYYY-MM-DD"
+  standard_version: string    # required. version evaluated; use a list when the period spans versions / ใส่เป็นรายการเมื่อช่วงเวลาครอบหลาย Version
+  tasks: integer              # required. tasks in scope
+  tasks_without_evidence: integer  # required. Handoffs without an Evidence block, listed in the report / Handoff ที่ไม่มี Evidence block
+  outcome:
+    task_success_rate: number       # required. PASS / tasks
+  quality:
+    verification_pass_rate: number  # required. no "fail" in verification / tasks
+    tasks_with_no_gate: integer     # required. tasks where every command is "none"
+    regression_rate: number         # optional (Standard level)
+  efficiency:
+    average_attempts: number        # required
+    tasks_at_cap: integer           # required
+    retry_rate: number              # optional (Standard level)
+    no_progress_rate: number        # optional (Standard level)
+    median_duration_minutes: number # optional (Standard level)
+  autonomy:
+    human_intervention_rate: number       # required. any intervention / tasks
+    unexpected_intervention_rate: number  # required. (unexpected + emergency) / tasks
+    first_pass_success_rate: number       # optional (Standard level)
+  failures:
+    by_category: map            # required. category -> count / หมวด -> จำนวน
+  baseline:
+    compared_to: string         # required. previous report id, or a Standard version, or "none"
+    result: enum                # required. improvement | regression | no-meaningful-change | insufficient-evidence
+    notes: string               # optional. which metrics moved / Metric ไหนขยับ
+  improvements:                 # required, may be empty / ต้องมี อาจว่าง
+    - id: string                # optional. IMP-YYYY-MM-DD-slug when a record exists / ใส่เมื่อมีไฟล์ Record
+      hypothesis: string        # required. if <change>, then <metric> moves <direction> / รูปแบบใน evaluation/improvement.md
+      change: enum              # required. requirement | workflow | gate | prompt | context | tool | docs | config | approval  (evaluation/improvement.md section 6)
+      expected_effect: string   # required. which metric should move / Metric ไหนควรขยับ
+      action: enum              # required. NO_ACTION | MONITOR | ADJUST | IMPROVE | ESCALATE  (evaluation/improvement.md section 5)
+      decision: enum            # required. accepted | rejected | deferred | pending  (Developer; pending until reviewed)
+      owner: string             # optional
+  improvement_validation:       # required, may be empty. records this report closed / ต้องมี อาจว่าง รายการที่ Report นี้ปิด
+    - id: string                # required. the improvement record being validated / รายการที่กำลังยืนยันผล
+      baseline: string          # required. report id or standard version recorded when it was accepted / Baseline ที่บันทึกไว้
+      result: enum              # required. improvement | no-meaningful-change | regression | insufficient-evidence
+      notes: string             # optional. metric: from -> to, with counts / Metric: จาก -> เป็น พร้อมจำนวน
+
+# ---------------------------------------------------------------------------
+# IMPROVEMENT: one change decided from the evidence. Written for ADJUST and IMPROVE only.
+# NO_ACTION and MONITOR stay as one line in the report. See evaluation/improvement.md.
+# การปรับปรุงหนึ่งรายการ เขียนเฉพาะ ADJUST และ IMPROVE ดู evaluation/improvement.md
+# ---------------------------------------------------------------------------
+improvement:
+  id: string                 # required. "IMP-YYYY-MM-DD-slug", equals the record file name / ตรงกับชื่อไฟล์
+  source: string             # required. report id, task ids, or where the feedback came from / ที่มาของ Feedback
+  problem: string            # required. one line / หนึ่งบรรทัด
+  evidence: string           # required. counts and task ids, never opinion / จำนวนและ id ของ Task ห้ามใส่ความเห็น
+  root_cause: string         # required. a slug from evaluation/failure-taxonomy.md plus one line / หมวดจาก Taxonomy เดิม บวกคำอธิบายหนึ่งบรรทัด
+  hypothesis: string         # required. if <change>, then <metric> moves <direction> / ถ้าเปลี่ยน X แล้ว Metric Y จะขยับไปทาง Z
+  affected_component: enum   # required. requirement | workflow | gate | prompt | context | tool | docs | config | approval  (section 6). Exactly one / หนึ่ง Component เท่านั้น
+  proposed_change: string    # required. the files and what changes in them / ไฟล์และสิ่งที่เปลี่ยนในไฟล์นั้น
+  decision: enum             # required. NO_ACTION | MONITOR | ADJUST | IMPROVE | ESCALATE  (section 5)
+  status: enum               # required. proposed | accepted | rejected | deferred | applied | measuring | closed. Moves in that order; only a Developer moves it past "proposed"
+  baseline: string           # required. report id or standard version, recorded once when accepted, never changed / บันทึกครั้งเดียว ห้ามแก้
+  measure: string            # required. which metric from evaluation/metrics.md, over which period / Metric และช่วงเวลา
+  result: enum               # required. improvement | no-meaningful-change | regression | insufficient-evidence | pending  (pending until a report closes it)
+  version: string            # required. Standard version that carries it, or "project-only" / Version ที่บรรจุ หรือ "project-only"
+  owner: string              # required. who is responsible / ผู้รับผิดชอบ
+  closed: string             # optional. "YYYY-MM-DD"
+
+# ---------------------------------------------------------------------------
+# VERSION: how loop versions are identified. No separate document; the value lives in
+# evidence.standard_version and evaluation.standard_version and equals the Standard's VERSION file.
+# Version ของ Loop คือ VERSION ของ Standard ไม่มีเอกสารแยก
+# ---------------------------------------------------------------------------

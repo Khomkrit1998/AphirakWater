@@ -12,10 +12,10 @@ Project นี้ใช้ AI Development Standard ซึ่ง copy ไว้�
 
 | Item / รายการ | Value / ค่า |
 | --- | --- |
-| Standard version / เวอร์ชัน | `1.0.0` |
-| Standard root / ตำแหน่ง | `.ai-standard/v1.0.0/` |
+| Standard version / เวอร์ชัน | `1.5.0` |
+| Standard root / ตำแหน่ง | `.ai-standard/v1.5.0/` |
 
-@.ai-standard/v1.0.0/CLAUDE.md
+@.ai-standard/v1.5.0/CLAUDE.md
 
 Paths mentioned inside the Standard (for example `workflows/feature.md` or `templates/handoff.md`) are relative to the Standard root above.
 
@@ -55,10 +55,41 @@ Developer เป็นผู้มีอำนาจตัดสินใจข�
 | `docs/requirements/` | What the project should do / Project ต้องทำอะไร |
 | `docs/architecture/` | How the project is built / Project สร้างอย่างไร |
 | `docs/decisions/` | Why important decisions were made / ทำไมจึงเลือกแนวทางนั้น |
+| `docs/evaluation/tasks/` | One Handoff per task, with its Evidence block. Written at the end of meaningful work / Handoff หนึ่งไฟล์ต่อ Task พร้อม Evidence block เขียนเมื่อจบงานสำคัญ |
+| `docs/evaluation/reports/` | Evaluation reports of the loop, per `workflows/evaluate.md` / รายงานประเมิน Loop ตาม `workflows/evaluate.md` |
+| `docs/evaluation/improvements/` | One record per accepted improvement, with its baseline and result, per `evaluation/improvement.md` / หนึ่งไฟล์ต่อหนึ่งการปรับปรุงที่รับไว้ พร้อม Baseline และผล ตาม `evaluation/improvement.md` |
 
 AI SHOULD inspect relevant documentation before making implementation decisions.
 
 AI ควรตรวจสอบเอกสารที่เกี่ยวข้องก่อนตัดสินใจด้าน Implementation
+
+---
+
+## Verification Commands / คำสั่งตรวจสอบ
+
+AI runs these before reporting meaningful work as done. On failure it fixes and re-runs within the attempt cap, per `workflows/verify-loop.md`. `none` means there is no command for that check. Baseline records failures that existed before; the gate for that command is then "no new failures". Change this table only outside a loop.
+
+AI รันคำสั่งเหล่านี้ก่อนรายงานว่างานสำคัญเสร็จ ถ้าไม่ผ่านจะแก้แล้วรันซ้ำภายในจำนวนรอบสูงสุด ตาม `workflows/verify-loop.md` `none` แปลว่าไม่มีคำสั่งสำหรับการตรวจนั้น Baseline บันทึก Failure ที่มีอยู่ก่อน เกณฑ์ของคำสั่งนั้นจึงเป็น "ไม่มี Failure ใหม่" แก้ตารางนี้เฉพาะนอก Loop
+
+| Check / การตรวจ | Command / คำสั่ง | Baseline |
+| --- | --- | --- |
+| typecheck | pnpm typecheck | none |
+| lint | pnpm lint | none |
+| test | none | none |
+| build | pnpm build | none |
+
+---
+
+## Git Workflow / การทำงานกับ Git
+
+How changes enter git, per `workflows/git.md`. `branch-pr`: a branch and a pull request for every change. `direct-main`: commit to the integration branch after the Verification Commands pass. Change this table only outside a task.
+
+วิธีนำการเปลี่ยนแปลงเข้า Git ตาม `workflows/git.md` `branch-pr`: ทุกการเปลี่ยนแปลงมี Branch และ Pull Request `direct-main`: Commit เข้า Branch ที่รวมงานหลังคำสั่งตรวจสอบผ่าน แก้ตารางนี้เฉพาะนอก Task
+
+| Setting / การตั้งค่า | Value / ค่า |
+| --- | --- |
+| Mode / โหมด | direct-main |
+| Integration branch / Branch ที่รวมงาน | main |
 
 ---
 

@@ -119,7 +119,7 @@ Do not maintain a separate default list in this workflow. The registry is the si
 
 ไม่ต้องเก็บรายการ Default แยกไว้ใน Workflow นี้ ให้ใช้ Registry เป็นแหล่งข้อมูลเดียว
 
-For Standard version `v1.0.0`, the registry resolves to:
+For Standard version `v1.5.0`, the registry resolves to:
 
 ```text
 Recommended (default):

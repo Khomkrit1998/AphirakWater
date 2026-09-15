@@ -144,6 +144,18 @@ Verification should be appropriate to the type and risk of the change.
 
 การตรวจสอบควรเหมาะสมกับประเภทและความเสี่ยงของการเปลี่ยนแปลง
 
+Before reporting meaningful work as done, run every command in the Project's Verification Commands table that is not `none`, and report each result. On failure, fix and re-run within the attempt cap. Never weaken the gate to make it pass. The loop, its decisions, and its stop conditions are defined in `workflows/verify-loop.md`.
+
+ก่อนรายงานว่างานที่มีสาระสำคัญเสร็จ ให้รันทุกคำสั่งในตาราง Verification Commands ของ Project ที่ไม่ใช่ `none` และรายงานผลแต่ละคำสั่ง ถ้าไม่ผ่านให้แก้แล้วรันซ้ำภายในจำนวนรอบสูงสุด ห้ามลดเกณฑ์เพื่อให้ผ่าน วงรอบ การตัดสินใจ และเงื่อนไขหยุดกำหนดไว้ใน `workflows/verify-loop.md`
+
+Verification depth should match the task risk: low-risk changes run the commands, high-risk changes add acceptance criteria, manual checks, and Developer approval.
+
+ความลึกของการตรวจสอบควรสอดคล้องกับความเสี่ยงของ Task: งานความเสี่ยงต่ำรันคำสั่งตรวจสอบ งานความเสี่ยงสูงเพิ่ม Acceptance criteria การตรวจด้วยมือ และการอนุมัติจาก Developer
+
+Which quality checks apply is defined in `standards/quality.md`. Whether the result meets its requirement is evaluated per `standards/evaluation.md`.
+
+การตรวจคุณภาพใดที่เกี่ยวข้อง กำหนดใน `standards/quality.md` ส่วนผลลัพธ์ตอบ Requirement หรือไม่ ประเมินตาม `standards/evaluation.md`
+
 ### 8. Make decisions explicit
 
 ทำให้ Decision ที่สำคัญชัดเจน
@@ -151,6 +163,10 @@ Verification should be appropriate to the type and risk of the change.
 Important technical decisions, assumptions, trade-offs, and risks should be communicated and documented when appropriate.
 
 Technical Decision, Assumption, Trade-off และ Risk ที่สำคัญควรถูกอธิบายและบันทึกเมื่อเหมาะสม
+
+When an architecture decision is recorded, and how, is defined in `standards/architecture.md`.
+
+เมื่อใดและอย่างไรจึงบันทึก Architecture decision กำหนดใน `standards/architecture.md`
 
 ### 9. Preserve project knowledge
 
@@ -197,6 +213,11 @@ Project ควรสามารถเข้าใจและดูแลต่
 * Treat AI-generated code as automatically correct.
 * Replace Developer decisions without explicit direction.
 * Store project-specific knowledge in the central standard.
+* Weaken a verification gate to make it pass.
+* Start a loop the Developer did not ask for.
+* Treat its own claim as evidence when a command result is available.
+* Claim that an improvement worked without comparing it with its recorded baseline.
+* Change a metric definition, a gate, or this Standard without evidence and Developer approval.
 
 ---
 
@@ -334,6 +355,10 @@ A meaningful development task should be considered complete when:
 * The Developer can understand the resulting changes.
 * Handoff information is available when appropriate.
 
+The Definition of Done these criteria report on is defined in `standards/quality.md`.
+
+Definition of Done ที่เกณฑ์เหล่านี้รายงาน กำหนดใน `standards/quality.md`
+
 ---
 
 ## Project Independence / การแยกความรู้ระหว่าง Project
@@ -404,7 +429,7 @@ plugins/
 ## Standard Structure / โครงสร้าง Standard
 
 ```text
-v1.0.0/
+v1.5.0/
 
 ├── CLAUDE.md
 ├── VERSION
@@ -412,13 +437,33 @@ v1.0.0/
 │
 ├── standards/
 │   ├── development.md
+│   ├── architecture.md
+│   ├── quality.md
+│   ├── evaluation.md
 │   └── versioning.md
 │
 ├── workflows/
-│   └── feature.md
+│   ├── feature.md
+│   ├── bug-fix.md
+│   ├── change.md
+│   ├── git.md
+│   ├── verify-loop.md
+│   ├── evaluate.md
+│   └── plugin-onboarding.md
 │
 ├── templates/
-│   └── handoff.md
+│   ├── handoff.md
+│   ├── evaluation-report.md
+│   └── improvement-record.md
+│
+├── evaluation/
+│   ├── README.md
+│   ├── framework.md
+│   ├── evidence.md
+│   ├── metrics.md
+│   ├── failure-taxonomy.md
+│   ├── improvement.md
+│   └── evaluation-schema.yaml
 │
 └── plugins/
     ├── README.md
@@ -430,9 +475,10 @@ v1.0.0/
 | Component      | Responsibility                                                      |
 | -------------- | ------------------------------------------------------------------- |
 | `CLAUDE.md`    | Core instructions and entry point / Instruction หลักและ Entry Point |
-| `standards/`   | Development standards / มาตรฐานการพัฒนา                             |
+| `standards/`   | Development, architecture, quality, evaluation, and versioning standards / มาตรฐานการพัฒนา Architecture คุณภาพ การประเมินผลลัพธ์ และ Version |
 | `workflows/`   | Standardized development processes / กระบวนการทำงาน                 |
 | `templates/`   | Reusable documentation templates / Template เอกสาร                  |
+| `evaluation/`  | Evaluation framework: evidence, metrics, failure taxonomy, improvement, schema / กรอบการประเมิน: หลักฐาน ตัวชี้วัด การจำแนก Failure การปรับปรุง และ Schema |
 | `plugins/`     | Plugin policy and catalog / Policy และรายการ Plugin                 |
 | `VERSION`      | Current version / Version ปัจจุบัน                                  |
 | `CHANGELOG.md` | Version history / ประวัติการเปลี่ยนแปลง                             |

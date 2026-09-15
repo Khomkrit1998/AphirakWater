@@ -390,6 +390,10 @@ The CHANGELOG should explain the impact of the release rather than reproduce the
 
 CHANGELOG ควรอธิบายว่า Release นี้เปลี่ยนอะไรและมีผลอย่างไร ไม่ควรคัดลอกเนื้อหาทั้งหมดของไฟล์ที่แก้ไขมาไว้ใน Changelog
 
+When a release carries improvements decided by `evaluation/improvement.md`, list their record ids, so the next evaluation can compare the version against the baseline each record named.
+
+ถ้า Release นั้นบรรจุการปรับปรุงที่ตัดสินใจตาม `evaluation/improvement.md` ให้ระบุ id ของ Record ไว้ด้วย เพื่อให้การประเมินครั้งถัดไปเทียบ Version กับ Baseline ที่แต่ละ Record ระบุไว้ได้
+
 ---
 
 ## 12. Release Requirements / ข้อกำหนดก่อน Release
