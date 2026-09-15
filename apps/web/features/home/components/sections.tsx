@@ -11,10 +11,21 @@ import { cn } from "@workspace/ui/lib/utils"
 
 import fleet from "../assets/fleet.jpg"
 import workBranding from "../assets/work-branding.jpg"
+import workDusk from "../assets/work-dusk.jpg"
 import workFilling from "../assets/work-filling.jpg"
-import workNight from "../assets/work-night.jpg"
+import workHose from "../assets/work-hose.jpg"
+import workLakeside from "../assets/work-lakeside.jpg"
+import workMountainRoad from "../assets/work-mountain-road.jpg"
+import workNightLights from "../assets/work-night-lights.jpg"
+import workNightPair from "../assets/work-night-pair.jpg"
+import workPairDay from "../assets/work-pair-day.jpg"
+import workPairYard from "../assets/work-pair-yard.jpg"
 import workRear from "../assets/work-rear.jpg"
 import workResidence from "../assets/work-residence.jpg"
+import workShed from "../assets/work-shed.jpg"
+import workSide from "../assets/work-side.jpg"
+import workWetRoad from "../assets/work-wet-road.jpg"
+import workYard from "../assets/work-yard.jpg"
 import { BigWord, WaterGlow, WaveField } from "./decor"
 
 const container = "mx-auto max-w-[1200px] px-5"
@@ -296,62 +307,96 @@ export function PricingSection() {
   )
 }
 
-const galleryPhotos: Record<
-  (typeof home.gallery.items)[number]["image"],
-  { src: StaticImageData; position: string }
-> = {
-  branding: { src: workBranding, position: "object-[center_70%]" },
-  residence: { src: workResidence, position: "object-[65%_center]" },
-  filling: { src: workFilling, position: "object-[60%_center]" },
-  night: { src: workNight, position: "object-center" },
-  rear: { src: workRear, position: "object-[30%_center]" },
+type GalleryItem = (typeof home.gallery.items)[number]
+
+const galleryPhotos: Record<GalleryItem["image"], StaticImageData> = {
+  branding: workBranding,
+  residence: workResidence,
+  filling: workFilling,
+  rear: workRear,
+  "mountain-road": workMountainRoad,
+  side: workSide,
+  lakeside: workLakeside,
+  yard: workYard,
+  "pair-day": workPairDay,
+  "pair-yard": workPairYard,
+  "night-lights": workNightLights,
+  "night-pair": workNightPair,
+  dusk: workDusk,
+  hose: workHose,
+  shed: workShed,
+  "wet-road": workWetRoad,
 }
 
-// Asymmetric mosaic, in item order: one large photo beside the intro, then a row.
-const galleryLayout = [
-  "sm:col-span-2 lg:col-[6/13] lg:row-[1/3]",
-  "lg:col-[1/6] lg:row-[2/3]",
-  "lg:col-[1/5] lg:row-[3/4]",
-  "lg:col-[5/9] lg:row-[3/4]",
-  "lg:col-[9/13] lg:row-[3/4]",
-]
+// One endless row. The photos are rendered twice (the copy hidden from assistive
+// tech) so marquee-track can loop by moving half its width. With reduced motion
+// the copy is dropped and the row scrolls by hand instead.
+function PhotoRow({ items, reverse = false }: { items: GalleryItem[]; reverse?: boolean }) {
+  const photos = (copy: boolean) =>
+    items.map((item) => {
+      const src = galleryPhotos[item.image]
+      return (
+        <div
+          key={item.image}
+          style={{ aspectRatio: `${src.width} / ${src.height}` }}
+          className="relative h-[200px] shrink-0 overflow-clip rounded-[18px] bg-tint sm:h-[260px]"
+        >
+          <Image
+            src={src}
+            alt={copy ? "" : item.alt}
+            fill
+            placeholder="blur"
+            sizes="(min-width: 640px) 470px, 360px"
+            className="object-cover transition-transform duration-700 hover:scale-105 motion-reduce:transition-none"
+          />
+        </div>
+      )
+    })
 
+  return (
+    <div className="mask-[linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] motion-reduce:overflow-x-auto motion-reduce:mask-none">
+      <div
+        className={cn(
+          "marquee-track gap-4 pr-4 group-hover/rows:paused group-has-checked/gallery:paused motion-reduce:px-5",
+          reverse && "[animation-direction:reverse]"
+        )}
+      >
+        {photos(false)}
+        <div aria-hidden="true" className="contents motion-reduce:hidden">
+          {photos(true)}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Two full-bleed rows of real photos moving in opposite directions. They pause on
+// hover and with the toggle, so the motion can be stopped (WCAG 2.2.2).
 export function WorkGallery() {
   const { gallery } = home
+  const half = Math.ceil(gallery.items.length / 2)
   return (
-    <section id="gallery" aria-labelledby="gallery-heading" className={cn(container, gapTop, "scroll-mt-20")}>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:grid-rows-[auto_260px_260px] lg:gap-5">
-        <div className="sm:col-span-2 lg:col-[1/6] lg:row-[1/2] lg:self-end lg:pb-2">
+    <section
+      id="gallery"
+      aria-labelledby="gallery-heading"
+      className={cn(gapTop, "group/gallery scroll-mt-20")}
+    >
+      <div className={cn(container, "mb-10 flex flex-wrap items-end justify-between gap-6")}>
+        <div>
           <Eyebrow>{gallery.eyebrow}</Eyebrow>
           <h2 id="gallery-heading" className={cn(h2, "mb-4")}>
             <Lines lines={gallery.heading} />
           </h2>
           <p className="max-w-[44ch] text-[16.5px] leading-[1.7] text-ink-600">{gallery.lead}</p>
         </div>
-        {gallery.items.map((item, i) => {
-          const photo = galleryPhotos[item.image]
-          return (
-            <figure
-              key={item.image}
-              className={cn(
-                "relative aspect-[4/3] overflow-clip rounded-[20px] bg-tint lg:aspect-auto",
-                galleryLayout[i]
-              )}
-            >
-              <Image
-                src={photo.src}
-                alt={item.alt}
-                fill
-                placeholder="blur"
-                sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
-                className={cn("object-cover", photo.position)}
-              />
-              <figcaption className="absolute bottom-3 left-3 max-w-[calc(100%-24px)] rounded-full bg-background/92 px-3.5 py-1.5 text-[13px] font-medium text-foreground backdrop-blur-sm">
-                {item.caption}
-              </figcaption>
-            </figure>
-          )
-        })}
+        <label className="inline-flex cursor-pointer items-center gap-2.5 rounded-full border bg-card px-4 py-2.5 text-[14px] font-medium text-ink-700 transition-colors select-none hover:bg-soft has-focus-visible:outline-2 has-focus-visible:outline-ring motion-reduce:hidden">
+          <input type="checkbox" className="size-4 accent-primary" />
+          หยุดภาพเลื่อน
+        </label>
+      </div>
+      <div className="group/rows grid gap-4">
+        <PhotoRow items={gallery.items.slice(0, half)} />
+        <PhotoRow items={gallery.items.slice(half)} reverse />
       </div>
     </section>
   )

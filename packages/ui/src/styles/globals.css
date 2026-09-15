@@ -60,6 +60,7 @@
     --color-tint: var(--tint);
     --color-tint-border: var(--tint-border);
     --color-surface-dark: var(--surface-dark);
+    --color-night: var(--night);
     --color-on-dark-muted: var(--on-dark-muted);
     --color-call: var(--call);
     --color-call-hover: var(--call-hover);
@@ -143,6 +144,8 @@
     --tint: #f5faf8;
     --tint-border: #e5efea;
     --surface-dark: #0b4a39;
+    /* Near-black green behind the night-photo hero */
+    --night: #07110e;
     --on-dark-muted: #c7e4d9;
     --call: #d92b2b;
     --call-hover: #b31e1e;
@@ -216,6 +219,7 @@
     --tint: #0f1a16;
     --tint-border: #1c2b25;
     --surface-dark: #0e3d30;
+    --night: #050c0a;
     --on-dark-muted: #b9dcce;
     --call: #d92b2b;
     --call-hover: #e14444;
@@ -290,18 +294,42 @@
   mask-composite: intersect;
 }
 
-@keyframes story-drive {
-  to { translate: 9% 0; }
+/* Time-based motion (not scroll-driven). Reduced motion gets the first hero photo
+   standing still and a gallery that scrolls by hand. */
+
+/* Hero: the first photo stays underneath; the second fades in over it for half of
+   each 16s cycle. Both drift slowly closer. */
+@keyframes hero-show {
+  0% { opacity: 0; }
+  6%, 50% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+@keyframes hero-drift {
+  to { scale: 1.08; }
+}
+@utility hero-slide {
+  opacity: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-show 16s 8s infinite both;
+  }
+}
+@utility hero-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-drift 16s ease-in-out infinite alternate;
+  }
 }
 
-/* Hero truck drives off to the right as the hero scrolls away. */
-@utility motion-drive {
+/* Gallery: the track holds the photos twice, so moving it by half loops without a
+   seam (give it right padding equal to its gap). Pause it with `paused`; reverse a
+   row with [animation-direction:reverse]. */
+@keyframes marquee {
+  to { translate: -50% 0; }
+}
+@utility marquee-track {
+  display: flex;
+  width: max-content;
   @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      animation: story-drive linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
+    animation: marquee 90s linear infinite;
   }
 }
 

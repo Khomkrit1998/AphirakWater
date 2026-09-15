@@ -18,7 +18,10 @@ export const homeSchema = z.object({
     proof: z.array(z.string().min(1)),
     // What happens after the quote button; only repeats promises made elsewhere on the page.
     ctaNote: z.string().min(1),
-    imageAlt: z.string().min(1),
+    // Exactly two: the second cross-fades over the first (hero-slide in globals.css).
+    slides: z
+      .array(z.object({ image: z.enum(["night", "night-side"]), alt: z.string().min(1) }))
+      .length(2),
     floatStat: z.object({ value: z.string(), label: z.string() }),
   }),
   // Unconfirmed: trust numbers and reviews are sample copy from the prototype.
@@ -47,12 +50,28 @@ export const homeSchema = z.object({
     items: z
       .array(
         z.object({
-          image: z.enum(["branding", "residence", "filling", "night", "rear"]),
+          image: z.enum([
+            "branding",
+            "residence",
+            "filling",
+            "rear",
+            "mountain-road",
+            "side",
+            "lakeside",
+            "yard",
+            "pair-day",
+            "pair-yard",
+            "night-lights",
+            "night-pair",
+            "dusk",
+            "hose",
+            "shed",
+            "wet-road",
+          ]),
           alt: z.string().min(1),
-          caption: z.string().min(1),
         })
       )
-      .length(5),
+      .min(2),
   }),
   reviews: z.object({
     heading: z.string().min(1),
@@ -79,7 +98,13 @@ export const home = homeSchema.parse({
     lead: "รถส่งน้ำหลายขนาด พร้อมให้บริการบ้านพัก โรงแรม รีสอร์ต Pool Villa สระว่ายน้ำ และงานก่อสร้าง รองรับการใช้น้ำปริมาณมากและงานเร่งด่วน",
     proof: ["ส่งตรงเวลา", "มีรถหลายขนาด", "รองรับงานปริมาณมาก"],
     ctaNote: "รับใบเสนอราคาภายในวันเดียว · รู้ราคารวมก่อนรถออกทุกครั้ง",
-    imageAlt: "รถส่งน้ำ ISUZU ถังสีเขียวของอภิรักษ์บริการน้ำ ทะเบียน 81-2267",
+    slides: [
+      { image: "night", alt: "รถส่งน้ำ 2 คันของอภิรักษ์บริการน้ำ เปิดไฟหลากสีจอดคู่กันในเวลากลางคืน" },
+      {
+        image: "night-side",
+        alt: "ด้านข้างรถส่งน้ำถังสีเขียว มีชื่อหจก.อภิรักษ์บริการน้ำ เปิดไฟสีแดงใต้ถังในเวลากลางคืน",
+      },
+    ],
     floatStat: { value: "1,000+", label: "เที่ยวส่งน้ำต่อปี" },
   },
   stats: [
@@ -159,8 +184,10 @@ export const home = homeSchema.parse({
     ],
     note: "* รับงานตลอด 24 ชั่วโมง งานเร่งด่วนและงานกลางคืนคิดค่าบริการเพิ่มตามจริง แจ้งให้ทราบก่อนเริ่มงานทุกครั้ง",
   },
-  // Photos are the company's own (supplied by the owner). Captions describe what
-  // is visible in each photo; confirm details with the owner.
+  // Photos are the company's own (supplied by the owner); alt text describes what is
+  // visible. Left out: identifiable people, a customer's signage, and the red pickup
+  // tanks (they contradict the 5,000-litre minimum until the owner confirms, see 0004).
+  // The first half of the list scrolls in the top row, the rest in the bottom row.
   gallery: {
     eyebrow: "ภาพจากงานจริง",
     heading: ["รถของเรา", "ในการทำงานจริง"],
@@ -169,28 +196,25 @@ export const home = homeSchema.parse({
       {
         image: "branding",
         alt: "รถส่งน้ำถังสีม่วงเขียว มีชื่อหจก.อภิรักษ์บริการน้ำและเบอร์โทรข้างถัง จอดริมถนนหน้าแนวต้นไม้",
-        caption: "ชื่อกิจการและเบอร์โทรข้างถัง",
       },
-      {
-        image: "residence",
-        alt: "รถส่งน้ำถังสีเขียวเลี้ยวเข้าทางเข้าที่พักในซอย",
-        caption: "เข้าถึงหน้าที่พักในซอย",
-      },
-      {
-        image: "filling",
-        alt: "รถส่งน้ำจอดใต้ท่อจ่ายน้ำสีฟ้าเพื่อเติมน้ำเข้าถัง",
-        caption: "เติมน้ำเข้าถังจากจุดจ่ายน้ำ",
-      },
-      {
-        image: "night",
-        alt: "รถส่งน้ำ 2 คันเปิดไฟพร้อมออกงานในเวลากลางคืน",
-        caption: "ออกงานได้ทั้งกลางวันและกลางคืน",
-      },
+      { image: "mountain-road", alt: "ด้านหน้ารถส่งน้ำ ISUZU แต่งไฟบนหลังคา จอดบนถนนริมภูเขา" },
+      { image: "residence", alt: "รถส่งน้ำถังสีเขียวเลี้ยวเข้าทางเข้าที่พักในซอย" },
+      { image: "night-lights", alt: "รถส่งน้ำเปิดไฟ LED สีฟ้าและเขียวบนหลังคารถในเวลากลางคืน" },
+      { image: "side", alt: "รถส่งน้ำถังสีเขียวม่วง มีชื่อหจก.อภิรักษ์บริการน้ำข้างถัง จอดหน้าอาคาร" },
+      { image: "hose", alt: "รถส่งน้ำจอดริมถนน มีสายส่งน้ำสีแดงต่อจากตัวรถ" },
+      { image: "pair-day", alt: "รถส่งน้ำ 2 คัน ถังสีแดงและถังสีเขียว จอดคู่กันที่ลานจอด" },
+      { image: "dusk", alt: "ด้านหน้ารถส่งน้ำ ISUZU แต่งโครเมียม จอดริมถนนตอนฟ้าสลัว" },
+      { image: "filling", alt: "รถส่งน้ำจอดใต้ท่อจ่ายน้ำสีฟ้าเพื่อเติมน้ำเข้าถัง" },
+      { image: "night-pair", alt: "รถส่งน้ำ 2 คันเปิดไฟหลากสีจอดคู่กันตอนหัวค่ำ" },
+      { image: "lakeside", alt: "รถส่งน้ำถังสีเขียวจอดบนถนนริมน้ำ มีภูเขาด้านหลัง" },
+      { image: "shed", alt: "รถส่งน้ำถังสีเขียวจอดใต้หลังคาโรงจอดรถ" },
       {
         image: "rear",
         alt: "ท้ายรถส่งน้ำ ถังมีชื่อหจก.อภิรักษ์บริการน้ำและเบอร์โทร 087-418-1199",
-        caption: "ชื่อกิจการและเบอร์โทรท้ายถัง",
       },
+      { image: "wet-road", alt: "รถส่งน้ำถังสีเขียวจอดบนถนนเปียกหน้าแนวต้นไม้" },
+      { image: "pair-yard", alt: "รถส่งน้ำถังสีแดงและถังสีเขียวจอดเรียงกันหน้าอาคาร" },
+      { image: "yard", alt: "รถส่งน้ำถังสีเขียวจอดที่ลานหน้าอาคาร" },
     ],
   },
   reviews: {
