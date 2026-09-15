@@ -30,7 +30,12 @@ import { BigWord, WaterGlow, WaveField } from "./decor"
 import { InViewItem } from "./in-view-item"
 
 const container = "mx-auto max-w-[1200px] px-5"
-const gapTop = "pt-[clamp(72px,9vw,120px)]"
+// Top padding plus a matching negative scroll margin, so a #section link lands the
+// section's first line (not its empty padding) at --sticky-top, the html
+// scroll-padding (see app/layout.tsx).
+const gapTop = "pt-[clamp(72px,9vw,120px)] scroll-mt-[calc(-1*clamp(72px,9vw,120px))]"
+// Same for the inner padding of full-width bands.
+const bandScroll = "scroll-mt-[calc(-1*clamp(56px,7vw,96px))]"
 const h2 = "text-[clamp(28px,3.4vw,42px)] leading-[1.15]"
 
 function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -54,7 +59,7 @@ function Lines({ lines }: { lines: string[] }) {
 export function ServicesSection({ children }: { children: React.ReactNode }) {
   const intro = home.services
   return (
-    <section id="services" className={cn(container, gapTop, "relative isolate scroll-mt-20")}>
+    <section id="services" className={cn(container, gapTop, "relative isolate")}>
       <WaterGlow className="-top-10 -left-56 size-[640px]" />
       <div className="motion-rise mb-10 grid gap-4 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
@@ -87,7 +92,7 @@ export function ProcessStory() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className={cn(container, gapTop, "story-scope scroll-mt-20 relative isolate pb-[clamp(40px,6vw,80px)] lg:pb-56")}
+      className={cn(container, gapTop, "story-scope relative isolate pb-[clamp(40px,6vw,80px)] lg:pb-56")}
     >
       {/* full-bleed soft tint behind the chapter, fading in and out at the edges */}
       <div
@@ -100,7 +105,7 @@ export function ProcessStory() {
       </BigWord>
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-28">
+          <div className="lg:sticky lg:top-(--sticky-top)">
             <Eyebrow>{process.eyebrow}</Eyebrow>
             <h2 id="process-heading" className={cn(h2, "mb-4")}>
               <Lines lines={process.heading} />
@@ -129,7 +134,7 @@ export function ProcessStory() {
         <div className="min-w-0 lg:col-span-6 lg:col-start-7">
           <div
             aria-hidden="true"
-            className="sticky top-[65px] z-10 -mx-5 mb-4 sm:top-[69px] bg-background/92 px-5 py-3 backdrop-blur-md lg:hidden"
+            className="sticky top-(--header-h) z-10 -mx-5 mb-4 bg-background/92 px-5 py-3 backdrop-blur-md lg:hidden"
           >
             <div className="mb-1.5 flex justify-between text-xs text-muted-foreground">
               <span>{first}</span>
@@ -162,8 +167,8 @@ export function ProcessStory() {
   )
 }
 
-// Below the sticky header (65px, 69px from sm); the pinned layer fills the rest.
-const pinned = "sticky top-[65px] h-[calc(100svh-65px)] sm:top-[69px] sm:h-[calc(100svh-69px)]"
+// Below the sticky header; the pinned layer fills the rest of the screen.
+const pinned = "sticky top-(--header-h) h-[calc(100svh-var(--header-h))]"
 
 // Pinned chapter (scroll-based + sticky). The fleet photo pins under the header
 // while the reasons scroll up over it one at a time. The wrapper's own view
@@ -173,7 +178,13 @@ const pinned = "sticky top-[65px] h-[calc(100svh-65px)] sm:top-[69px] sm:h-[calc
 export function WhyUs() {
   const { whyUs } = home
   return (
-    <section id="why-us" aria-labelledby="why-us-heading" className={cn(gapTop, "scroll-mt-4")}>
+    // Lands with the pinned layer flush under the header (1.5rem past gapTop's margin,
+    // cancelling the gap in --sticky-top), which is where pinning starts.
+    <section
+      id="why-us"
+      aria-labelledby="why-us-heading"
+      className="pt-[clamp(72px,9vw,120px)] scroll-mt-[calc(-1*clamp(72px,9vw,120px)-1.5rem)]"
+    >
       <div className="pin-track relative overflow-clip bg-night text-white">
         <div className={cn(pinned, "overflow-clip")}>
           <Image
@@ -207,7 +218,7 @@ export function WhyUs() {
           className={cn(
             container,
             // gap-y only: a plain gap would also apply between the 12 columns and squeeze them to 0
-            "relative -mt-[calc(100svh-65px)] grid gap-y-[26svh] pt-[52svh] pb-[22svh] sm:-mt-[calc(100svh-69px)] lg:grid-cols-12"
+            "relative -mt-[calc(100svh-var(--header-h))] grid gap-y-[26svh] pt-[52svh] pb-[22svh] lg:grid-cols-12"
           )}
         >
           {whyUs.items.map((item) => (
@@ -235,7 +246,7 @@ export function AreasSection() {
   return (
     <section
       id="areas"
-      className="relative isolate mt-[clamp(72px,9vw,120px)] scroll-mt-20 overflow-clip border-y border-tint-border bg-tint"
+      className={cn(bandScroll, "relative isolate mt-[clamp(72px,9vw,120px)] overflow-clip border-y border-tint-border bg-tint")}
     >
       <WaveField className="inset-x-0 bottom-0 h-72 text-brand opacity-[0.16]" />
       <div className={cn(container, "grid gap-10 py-[clamp(56px,7vw,96px)] lg:grid-cols-12 lg:pb-44")}>
@@ -287,7 +298,7 @@ export function AreasSection() {
 export function PricingSection() {
   const { pricing } = home
   return (
-    <section id="pricing" className={cn(container, "scroll-mt-20")}>
+    <section id="pricing" className={cn(container, bandScroll)}>
       <div className="grid items-start gap-10 lg:grid-cols-12">
         <div className="motion-rise pt-[clamp(56px,7vw,96px)] lg:col-span-5">
           <Eyebrow>{pricing.eyebrow}</Eyebrow>
@@ -414,7 +425,7 @@ export function WorkGallery() {
     <section
       id="gallery"
       aria-labelledby="gallery-heading"
-      className={cn(gapTop, "group/gallery scroll-mt-20")}
+      className={cn(gapTop, "group/gallery")}
     >
       <div className={cn(container, "motion-rise mb-10 flex flex-wrap items-end justify-between gap-6")}>
         <div>
@@ -461,7 +472,7 @@ export function ReviewsSection() {
   )
 
   return (
-    <section id="reviews" className={cn(container, gapTop, "scroll-mt-20")}>
+    <section id="reviews" className={cn(container, gapTop)}>
       <h2 className={cn(h2, "motion-rise mb-10")}>{reviews.heading}</h2>
       <div className="grid gap-10 lg:grid-cols-12">
         <figure className="motion-rise lg:col-span-7">
@@ -491,11 +502,11 @@ export function ReviewsSection() {
 
 export function FaqSection() {
   return (
-    <section id="faq" className={cn(container, gapTop, "relative isolate scroll-mt-20")}>
+    <section id="faq" className={cn(container, gapTop, "relative isolate")}>
       <WaterGlow className="top-0 -right-64 size-[680px]" />
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <div className="motion-rise lg:sticky lg:top-28">
+          <div className="motion-rise lg:sticky lg:top-(--sticky-top)">
             <h2 className={cn(h2, "mb-4")}>{home.faq.heading}</h2>
             <p className="text-[16px] leading-[1.7] text-ink-600">
               ไม่พบคำถามที่ต้องการ โทร{" "}
@@ -516,7 +527,7 @@ export function FaqSection() {
 export function CtaBand() {
   const { cta } = home
   return (
-    <section id="contact" className="relative isolate mt-[clamp(72px,9vw,120px)] scroll-mt-20 overflow-clip bg-surface-dark text-white">
+    <section id="contact" className={cn(bandScroll, "relative isolate mt-[clamp(72px,9vw,120px)] overflow-clip bg-surface-dark text-white")}>
       <WaveField className="inset-y-0 right-0 w-full text-white opacity-[0.1] lg:w-2/3" />
       {/* Top-right, clear of the translucent button row; hidden where the buttons stack. */}
       <BigWord className="top-[-0.4em] right-[-3%] hidden text-[clamp(120px,11vw,170px)] text-white opacity-[0.1] lg:block">

@@ -55,8 +55,8 @@ export function ScrollSpy() {
     const el = document.getElementById(id)
     if (!el) return
     event.preventDefault()
-    const smooth = window.matchMedia("(prefers-reduced-motion: no-preference)").matches
-    el.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" })
+    // behavior "auto" follows the page's scroll-behavior: smooth unless reduced motion.
+    el.scrollIntoView({ block: "start" })
     history.replaceState(null, "", `#${id}`)
   }
 
@@ -67,7 +67,7 @@ export function ScrollSpy() {
       <div
         aria-hidden="true"
         className={cn(
-          "reading-progress fixed inset-x-0 top-[65px] z-40 h-0.5 bg-primary/80 sm:top-[69px] min-[1360px]:hidden",
+          "reading-progress fixed inset-x-0 top-(--header-h) z-40 h-0.5 bg-primary/80 min-[1360px]:hidden",
           active === storyChapter && "max-lg:invisible"
         )}
       />

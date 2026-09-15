@@ -33,14 +33,14 @@ function Block({ block }: { block: ArticleBlock }) {
       return (
         <h2
           id={block.id}
-          className="mt-[34px] mb-3.5 scroll-mt-24 text-[clamp(24px,2.8vw,32px)]"
+          className="mt-[34px] mb-3.5 text-[clamp(24px,2.8vw,32px)]"
         >
           {block.text}
         </h2>
       )
     case "h3":
       return (
-        <h3 id={block.id} className="mt-[26px] mb-3 scroll-mt-24 text-[21px]">
+        <h3 id={block.id} className="mt-[26px] mb-3 text-[21px]">
           {block.text}
         </h3>
       )
@@ -105,7 +105,7 @@ export function ArticleView({ article }: { article: Article }) {
             </div>
           </article>
 
-          <aside className="grid min-w-0 gap-4 min-[900px]:sticky min-[900px]:top-[92px]">
+          <aside className="grid min-w-0 gap-4 min-[900px]:sticky min-[900px]:top-(--sticky-top)">
             <nav aria-labelledby="toc" className="rounded-[20px] border bg-card p-[22px]">
               <p id="toc" className="mb-3 font-heading text-[15.5px] font-semibold">
                 หัวข้อในบทความ

@@ -191,20 +191,14 @@ export function ServiceExplorer() {
                 // Mobile: details open inline and the previous card collapses,
                 // so bring the chosen card back to the top of the screen.
                 const card = e.currentTarget
+                // Smoothness and the header gap come from the page (scroll-behavior,
+                // scroll-padding in app/layout.tsx).
                 if (window.matchMedia("(max-width: 1023px)").matches) {
-                  const smooth = window.matchMedia(
-                    "(prefers-reduced-motion: no-preference)"
-                  ).matches
-                  requestAnimationFrame(() =>
-                    card.scrollIntoView({
-                      block: "start",
-                      behavior: smooth ? "smooth" : "auto",
-                    })
-                  )
+                  requestAnimationFrame(() => card.scrollIntoView({ block: "start" }))
                 }
               }}
               className={cn(
-                "group grid w-full scroll-mt-24 grid-cols-[48px_1fr_auto] items-center gap-4 rounded-[18px] border px-4 py-4 text-left transition-colors sm:px-5 lg:col-[1/6]",
+                "group grid w-full grid-cols-[48px_1fr_auto] items-center gap-4 rounded-[18px] border px-4 py-4 text-left transition-colors sm:px-5 lg:col-[1/6]",
                 cardRow[i],
                 active
                   ? "border-primary bg-soft"
@@ -242,7 +236,7 @@ export function ServiceExplorer() {
               role="region"
               aria-labelledby={`service-card-${service.slug}`}
               hidden={!active}
-              className="mb-3 lg:sticky lg:top-28 lg:col-[6/13] lg:row-[1/8] lg:mb-0"
+              className="mb-3 lg:sticky lg:top-(--sticky-top) lg:col-[6/13] lg:row-[1/8] lg:mb-0"
             >
               <ServicePanel service={service} />
             </div>

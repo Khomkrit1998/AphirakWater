@@ -37,10 +37,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    // Scrolling system, one source for every offset under the sticky header:
+    // --header-h is its height (65px, 69px from sm); --sticky-top sits 1.5rem below
+    // it and is both the scroll-padding (where a #section, a focused form field or a
+    // service card lands) and the top of sticky side columns, so what you scroll to
+    // and what sticks line up. Smooth only without reduced motion;
+    // data-scroll-behavior lets Next jump straight to the top on route changes.
     <html
       lang="th"
       suppressHydrationWarning
-      className={cn("antialiased font-sans", fontSans.variable, fontHeading.variable)}
+      data-scroll-behavior="smooth"
+      className={cn(
+        "scroll-pt-(--sticky-top) antialiased font-sans [--header-h:65px] [--sticky-top:calc(var(--header-h)+1.5rem)] motion-safe:scroll-smooth sm:[--header-h:69px]",
+        fontSans.variable,
+        fontHeading.variable
+      )}
     >
       <body className="overflow-x-clip">
         <JsonLd data={siteGraphLd(env.NEXT_PUBLIC_SITE_URL)} />

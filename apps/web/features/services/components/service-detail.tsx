@@ -130,7 +130,7 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
             </div>
           </article>
 
-          <aside className="grid min-w-0 gap-4 min-[900px]:sticky min-[900px]:top-[92px]">
+          <aside className="grid min-w-0 gap-4 min-[900px]:sticky min-[900px]:top-(--sticky-top)">
             <div className="rounded-[20px] border bg-card p-6 shadow-lift">
               <p className="mb-2 font-heading text-lg font-bold">
                 {page.sidebar.title}
