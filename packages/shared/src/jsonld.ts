@@ -37,8 +37,8 @@ export function siteGraphLd(siteUrl: string): JsonLd {
         alternateName: site.name,
         description: site.description,
         url: siteUrl,
-        logo: `${siteUrl}/logo.jpg`,
-        image: `${siteUrl}/logo.jpg`,
+        logo: `${siteUrl}/logo.png`,
+        image: `${siteUrl}/logo.png`,
         telephone: site.phoneIntl,
         areaServed: provinces,
         openingHoursSpecification: {

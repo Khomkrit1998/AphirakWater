@@ -11,12 +11,12 @@ export function Brand({ className }: { className?: string }) {
       className={cn("flex shrink-0 items-center gap-2.5", className)}
     >
       <Image
-        src="/logo.jpg"
+        src="/logo.png"
         alt={site.legalName}
         width={44}
         height={44}
         loading="eager"
-        className="size-10 rounded-[12px] object-cover sm:size-11"
+        className="size-10 object-contain sm:size-11"
       />
       <span className="flex min-w-0 flex-col leading-[1.15]">
         <span className="font-heading text-[15px] font-bold text-foreground sm:text-[17px]">

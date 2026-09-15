@@ -6,11 +6,11 @@ export function AdminBrand() {
   return (
     <div className="flex items-center gap-2.5 px-2 pt-1.5 pb-5">
       <Image
-        src="/logo.jpg"
+        src="/logo.png"
         alt={`โลโก้${site.name}`}
         width={36}
         height={36}
-        className="size-9 rounded-[10px] object-cover"
+        className="size-9 object-contain"
       />
       <span className="flex flex-col leading-[1.2]">
         <span className="font-heading text-[15px] font-bold">{site.name}</span>

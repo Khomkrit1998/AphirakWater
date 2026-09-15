@@ -11,11 +11,11 @@ export function SiteFooter() {
         <div className="max-w-[300px]">
           <div className="mb-4 flex items-center gap-[11px]">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt={`โลโก้${site.name}`}
               width={46}
               height={46}
-              className="size-[46px] rounded-[12px] object-cover"
+              className="size-[46px] object-contain"
             />
             <span className="font-heading text-[17px] font-bold text-white">
               {site.legalName}
