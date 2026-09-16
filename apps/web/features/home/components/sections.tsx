@@ -375,6 +375,9 @@ function PhotoRow({ items, reverse = false }: { items: GalleryItem[]; reverse?: 
   const photos = (copy: boolean) =>
     items.map((item) => {
       const src = galleryPhotos[item.image]
+      // Tiles have a fixed height (h-[200px] sm:h-[260px], keep in sync), so each
+      // photo's rendered width follows from its ratio: a portrait tile is 195px wide.
+      const widthAt = (height: number) => Math.ceil((height * src.width) / src.height)
       return (
         <div
           key={item.image}
@@ -386,7 +389,7 @@ function PhotoRow({ items, reverse = false }: { items: GalleryItem[]; reverse?: 
             alt={copy ? "" : item.alt}
             fill
             placeholder="blur"
-            sizes="(min-width: 640px) 470px, 360px"
+            sizes={`(min-width: 640px) ${widthAt(260)}px, ${widthAt(200)}px`}
             className="object-cover transition-transform duration-700 hover:scale-105 motion-reduce:transition-none"
           />
         </div>

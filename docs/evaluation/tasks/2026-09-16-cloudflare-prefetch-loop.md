@@ -114,7 +114,7 @@ Baseline: None
 1. หลัง deploy ให้วัดซ้ำ: เปิด DevTools แท็บ Network ทิ้งไว้ 20 วินาที ต้องนิ่ง หรือใช้ `curl` เช็กว่า `/blog` พร้อม header `Next-Router-Segment-Prefetch: /_tree` ตอบ body สั้น (~1.2 KB) และมี `x-nextjs-postponed: 2`
 2. ถ้าเจอ `Error 1102 Worker exceeded CPU` หลังปิด interception แปลว่าค่า CPU ของ Workers Free ไม่พอ ทางแก้คืออัป Workers Paid หรือกลับไปหา interception เมื่อ OpenNext แก้เงื่อนไข `prefetchInlining` แล้ว
 3. เมื่ออัป `@opennextjs/cloudflare` ในอนาคต ให้เช็กว่า `getBodyForAppRouter` ยังมีเงื่อนไข `!NextConfig.experimental?.prefetchInlining` อยู่ไหม ถ้าไม่มีแล้วจึงเปิด `enableCacheInterception` กลับได้ และต้องวัดซ้ำตามข้อ 1
-4. เรื่องที่พบระหว่างตรวจแต่ยังไม่ได้แก้ (คนละเรื่องกับ bug นี้): หน้าแรกมี `<img>` 37 ตัว (แถวรูป marquee ถูก render สองชุด) และ HTML 437 KB โดย 77 KB เป็น blur placeholder base64 · `/_next/image` ไม่มี `CF-Cache-Status` คือทุก transform วิ่งเข้า Worker และนับโควต้า Cloudflare Images (Free 5,000 ครั้งต่อเดือน)
+4. เรื่องรูปและขนาดหน้าที่เห็นระหว่างตรวจ ตามต่อแล้วใน `2026-09-16-gallery-image-sizes.md`
 
 ## Evidence / หลักฐาน
 
