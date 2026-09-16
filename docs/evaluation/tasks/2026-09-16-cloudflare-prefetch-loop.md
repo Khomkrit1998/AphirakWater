@@ -106,7 +106,7 @@ Baseline: None
 
 ### Verification Limitations / ข้อจำกัดในการตรวจสอบ
 
-* **ยังไม่ได้ deploy และวัดซ้ำบน Cloudflare จริง** `opennextjs-cloudflare build` ล้มที่ `EPERM: operation not permitted, symlink` เพราะ shell ที่ใช้ไม่มีสิทธิ์สร้าง symlink บน Windows (ต้องเปิด Developer Mode หรือรัน terminal แบบ admin) Developer ต้องรัน `pnpm --filter web deploy` เองแล้ววัดซ้ำ
+* **ยังไม่ได้ deploy และวัดซ้ำบน Cloudflare จริง** `opennextjs-cloudflare build` ล้มที่ `EPERM: operation not permitted, symlink` เพราะ build บน Windows ไม่ได้ (เปิด Developer Mode แล้วก็ยังล้ม ดู [0011](../../decisions/0011-cloudflare-workers-hosting.md#windows)) Developer ต้อง deploy ผ่าน Workers Builds หรือ Docker ตาม 0011 แล้ววัดซ้ำ
 * หลักฐานที่มีคือ root cause ที่อ่านจาก source ของ OpenNext ตรงกับ response จริงของ Cloudflare และเทียบ A/B กับ `next start` ซึ่งไม่มี interceptor แล้วไม่วน
 
 ## Debug / Continue
@@ -145,6 +145,6 @@ evidence:
   human:
     intervention: true
     type: "deploy"
-    reason: "opennextjs-cloudflare build needs Windows symlink privilege that this shell lacks; Developer must run pnpm --filter web deploy and re-measure"
+    reason: "opennextjs-cloudflare build does not work on Windows (decision 0011); Developer must deploy via Workers Builds or Docker and re-measure"
   files_changed: 1
 ```
